@@ -1,0 +1,88 @@
+== CUIE Abschlussprojekt
+
+=== Bearbeitet von
+
+* _Vorname Nachname_
+* _Vorname Nachname_
+
+
+=== Abgabe
+
+* *Montag, 16.1.2023*, 12:00 Uhr
+
+* Die Abgabe erfolgt durch ein "Push" auf den Master-Branch Ihres GitHub-Repositories.
+
+=== Initiale Schritte
+
+* Tragen Sie ihre Namen unter "Bearbeitet von" ein.
+
+* Benennen Sie das Package `project` um. Verwenden Sie Ihren GitHub-Account- oder Team-Namen. (Via `Refactor -> Rename…`)
+
+* Pushen Sie diese Änderungen am besten sofort ins Git-Repository (z.B. via `VCS -> Commit… -> Commit & Push`)
+
+
+=== Aufgabe: Dashboard oder Business Control für die "MountainApp"
+
+Entwerfen und implementieren Sie ein Dashboard _oder_ ein Business Control für das ws4C-Beispiel 'MountainApp' auf Basis JavaFX.
+
+
+Dashboard
+
+* ein Dashboard ersetzt oder ergänzt den sogenannten Header der MountainApp-Applikation
+* es arbeitet auf mindestens 2 Attributen eines Schweizer Berges
+* typischerweise enthält es also mehrere interaktive Custom Controls (im Sinne der Vorlesung)
+
+Business Control
+
+* Ein Business Control ersetzt eines (oder mehrere) der im sogenannten Editor-Bereich der MountainApp verwendeten Standard-TextFields.
+* Das Business Control soll den Benutzer beim jeweiligen Arbeitsschritt optimal unterstützen und alle im Unterricht besprochenen Mindestanforderungen an ein Business-Control erfüllen.
+* Das Business Control soll sich homogen in den bestehenden Editor-Bereich einfügen
+
+Für die einzelnen CustomControls des Dashboards verwenden Sie bei der Implementierung die Struktur wie im package `template_simplecontrol`.
+
+Für das _'Business Control'_ verwenden Sie bei der Implementierung die Struktur wie im package `template_businesscontrol`.
+
+Es ist Bestandteil der Aufgabe das passende Template auszuwählen (und zu erkennen, falls ein Template nicht geeignet ist).
+
+
+=== Präsentation
+
+* *Montag, 16.1.2023*, während des Unterrichts, notfalls via MS Teams
+* Ziel der Präsentation ist es, möglichst viele cuie-Studierende von Ihrer Lösung zu begeistern
+** die Klasse stimmt über den "Coolness-Faktor" der Lösung ab (aus Sicht eines potentiellen Benutzers)
+*** jede Lösung bekommt Punkte für den Coolness-Faktor
+** die Klasse kürt den Sieger des "Coolest Control Awards"
+*** davon kann es nur einen geben
+* Erarbeiten Sie eine geeignete Präsentationsform.
+
+
+=== Bewertung der Lösung
+
+* 0-3 Punkte für die technische Umsetzung der Lösung
+** Es gelten die gleichen Kriterien wie bei den ersten beiden Assignments
+* 0-3 Punkte für die "Design-Qualität"
+** mitentscheidend hierfür ist die Bewertung der Klasse und damit auch die Qualität der Präsentation
+* 0 Punkte gibt es
+** wenn Sie keine Präsentation machen
+** wenn Sie nichts Lauffähiges zu präsentieren haben (Ideen/Entwürfe reichen nicht aus)
+** falls im vorgestellten Projekt keine der im Unterricht erarbeiteten Konzepte erkennbar sind
+** das Projekt nicht compilierfähig ist
+** sich das Projekt nicht starten lässt (Exception beim Programmstart)
+** falls es sich um ein Plagiat handelt
+** falls kein nennenswerter Beitrag bei der Entwicklung geleistet wurde
+*** im Zweifelsfall wird ein Code-Walkthrough durchgeführt
+* In Ausnahmefällen kann es dazu kommen, dass Teammitglieder unterschiedliche Noten erhalten.
+
+
+=== Bitte beachten Sie
+
+* Falls Sie das Assignment zu zweit bearbeiten:
+** tragen Sie beide Namen unter "Bearbeitet von" ein
+** arbeiten Sie ausschliesslich in einem Repository
+** falls sie beide Zugang zu diesem Repository wollen: tragen Sie die zweite Person als "Collaborator" ein (auf GitHub unter `Settings -> Manage access`)
+** löschen Sie das nicht benötigte Repository (auf GitHub unter `Settings`)
+** arbeiten Sie gemeinsam und gleichzeitig an den Aufgaben (Stichwort: Pair-Programming)
+*** Empfehlung: Nutzen Sie "Code with me" von IntelliJ
+** https://www.it-agile.de/wissen/agiles-engineering/pair-programming/[Pair-Programming] heisst insbesondere, dass beide Teammitglieder zu gleichen Teilen aktiv in der Entwickler-Rolle sind. Einem Entwickler lediglich bei seiner Arbeit zuzuschauen ist kein Pair-Programming.
+** das Aufteilen und separate Bearbeiten von Teil-Aufgaben ist nicht erwünscht
+* Ausdrücklich erlaubt und erwünscht ist, dass Sie sich gegebenenfalls Hilfe holen.
