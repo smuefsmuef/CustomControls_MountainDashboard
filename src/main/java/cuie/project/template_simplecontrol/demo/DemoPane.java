@@ -7,17 +7,19 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-import cuie.project.template_simplecontrol.SimpleControl;
+import cuie.project.template_simplecontrol.MountainControl;
 
 public class DemoPane extends BorderPane {
 
     private final PresentationModel pm;
 
     // declare the custom control
-    private SimpleControl cc;
+    private MountainControl cc;
 
     // all controls
-    private Slider      slider;
+    private Slider      peakSlider;
+    private Slider      schartenSlider;
+    private Slider      distanceSlider;
     private ColorPicker colorPicker;
 
     public DemoPane(PresentationModel pm) {
@@ -30,17 +32,28 @@ public class DemoPane extends BorderPane {
     private void initializeControls() {
         setPadding(new Insets(10));
 
-        cc = new SimpleControl();
+        cc = new MountainControl();
 
-        slider = new Slider();
-        slider.setShowTickLabels(true);
+        peakSlider = new Slider(0, 4700, 4357);
+        peakSlider.setShowTickLabels(true);
 
-        colorPicker = new ColorPicker();
+        schartenSlider = new Slider(0, 1500, 895);
+        schartenSlider.setShowTickLabels(true);
+
+        distanceSlider = new Slider(5, 30, 7.2);
+        distanceSlider.setShowTickLabels(true);
+
+
+        //colorPicker = new ColorPicker();
     }
 
     private void layoutControls() {
-        VBox controlPane = new VBox(new Label("SimpleControl Properties"),
-                                    slider, colorPicker);
+        VBox controlPane = new VBox(
+            new Label("Gipfelhöhe"), peakSlider,
+            new Label("Schartenhöhe"), schartenSlider,
+            new Label("Distanz zum nächsten grösseren Berg"), distanceSlider
+            //new Label("Farbpicker"), colorPicker
+            );
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
 
@@ -49,12 +62,19 @@ public class DemoPane extends BorderPane {
     }
 
     private void setupBindings() {
-        slider.valueProperty().bindBidirectional(pm.pmValueProperty());
-        colorPicker.valueProperty().bindBidirectional(pm.baseColorProperty());
+        //slider.valueProperty().bindBidirectional(pm.pmValueProperty());
+       // colorPicker.valueProperty().bindBidirectional(pm.baseColorProperty());
+       // cc.baseColorProperty().bindBidirectional(pm.baseColorProperty());
+
+        peakSlider.valueProperty().bindBidirectional(pm.peakValueProperty());
+        schartenSlider.valueProperty().bindBidirectional(pm.schartenValueProperty());
+        distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
 
 
-        cc.valueProperty().bindBidirectional(pm.pmValueProperty());
-        cc.baseColorProperty().bindBidirectional(pm.baseColorProperty());
+        cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+
     }
 
 }

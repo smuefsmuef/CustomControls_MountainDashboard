@@ -1,14 +1,26 @@
-.simple-control {
+.mountain-control {
     -fx-padding:          5;
-    -fx-background-color: rgb(12, 12, 12);
-    -base-color:          rgb(2, 138, 204);
+    -fx-background-color: rgb(40, 126, 255);
+    -text-color:          rgb(255, 255, 255);
 }
 
-.simple-control .background-circle {
-    -fx-fill: -base-color;
+.mountain-control .scharten-circle {
+    -fx-fill: rgb(255, 74, 161);
 }
 
-.simple-control .display {
+.mountain-control .distance-circle {
+    -fx-fill: rgb(0, 214, 111);
+}
+
+.mountain-control .main-mountain {
+    -fx-fill: white;
+}
+
+.mountain-control .neighbour-mountain {
+    -fx-fill: rgb(157,187,232);
+}
+
+.mountain-control .display {
     -fx-font-family: 'Lato Light';
     -fx-font-size:   24;
     -fx-fill:        derive(-base-color, 90%);
