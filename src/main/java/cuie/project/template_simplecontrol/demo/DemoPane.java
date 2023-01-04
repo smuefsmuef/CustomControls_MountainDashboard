@@ -34,13 +34,13 @@ public class DemoPane extends BorderPane {
 
         cc = new MountainControl();
 
-        peakSlider = new Slider(0, 4700, 4357);
+        peakSlider = new Slider(0, 5000, 4357);
         peakSlider.setShowTickLabels(true);
 
-        schartenSlider = new Slider(0, 1500, 895);
+        schartenSlider = new Slider(0, 2200, 895);
         schartenSlider.setShowTickLabels(true);
 
-        distanceSlider = new Slider(5, 30, 7.2);
+        distanceSlider = new Slider(5, 20, 7.2);
         distanceSlider.setShowTickLabels(true);
 
 
@@ -51,7 +51,7 @@ public class DemoPane extends BorderPane {
         VBox controlPane = new VBox(
             new Label("Gipfelhöhe"), peakSlider,
             new Label("Schartenhöhe"), schartenSlider,
-            new Label("Distanz zum nächsten grösseren Berg"), distanceSlider
+            new Label("Kilometer bis zum nächsten grösseren Berg"), distanceSlider
             //new Label("Farbpicker"), colorPicker
             );
         controlPane.setPadding(new Insets(0, 50, 0, 50));

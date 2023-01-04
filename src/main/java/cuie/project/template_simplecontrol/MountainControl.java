@@ -134,37 +134,38 @@ public class MountainControl extends Region {
 
     private void initializeParts() {
         //ToDo: alle deklarierten Parts initialisieren
-        double center = ARTBOARD_WIDTH * 0.5;
+        double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
+        double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
 
-        schartenHeightCircle = new Circle(500, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10), 10);
+        schartenHeightCircle = new Circle(500, schartenHeight, 10);
         schartenHeightCircle.getStyleClass().add("scharten-circle");
 
         distanceCircle =
-            new Circle(500 + getDistanceValue() * 10 * 2, ARTBOARD_HEIGHT - (getPeakValue() / 10), 10);
+            new Circle(500 + getDistanceValue() * 10 * 2, peakHeight, 10);
         distanceCircle.getStyleClass().add("distance-circle");
 
         mainMountain = new Polygon();
         mainMountain.getPoints().setAll(
-            400.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-            600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-            500.0, ARTBOARD_HEIGHT - getPeakValue() / 10
+            400.0, schartenHeight,
+            600.0, schartenHeight,
+            500.0, peakHeight
         );
         mainMountain.getStyleClass().add("main-mountain");
 
         neighbourMountain = new Polygon();
         neighbourMountain.getPoints().setAll(
-            600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-            1000.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-            500.0 + getDistanceValue() * 10 * 2 + 30, ARTBOARD_HEIGHT - (getPeakValue() / 10 + 20)
+            600.0, schartenHeight,
+            1000.0, schartenHeight,
+            (500.0 + getDistanceValue() * 10 * 2 + 30), (peakHeight - 20)
         );
         neighbourMountain.getStyleClass().add("neighbour-mountain");
 
 
-        displayPeakHeight = new Text(170, ARTBOARD_HEIGHT - (getPeakValue() / 10), valueOf(getPeakValue()));
-        displaySchartenHeight = new Text(170, ARTBOARD_HEIGHT - ((getPeakValue() / 10 - getSchartenValue() / 10)),
+        displayPeakHeight = new Text(170, peakHeight, valueOf(getPeakValue()));
+        displaySchartenHeight = new Text(170, schartenHeight,
             valueOf(getSchartenValue()));
         displayDistance =
-            new Text(500.0 + getDistanceValue() * 10 * 2 + 30, ARTBOARD_HEIGHT - (getPeakValue() / 10 - 10),
+            new Text(500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight + 10,
                 valueOf(getDistanceValue()));
     }
 
@@ -197,62 +198,80 @@ public class MountainControl extends Region {
     private void setupValueChangeListeners() {
         //ToDo: durch die Listener auf die Properties des Custom Controls ersetzen
 
+
         peakValueProperty().addListener((observable, oldValue, newValue) ->
         {
+            double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
+            double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+
             schartenHeightCircle.setCenterX(500);
-            schartenHeightCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10));
+            schartenHeightCircle.setCenterY(schartenHeight);
 
             distanceCircle.setCenterX(500 + getDistanceValue() * 10 * 2);
-            distanceCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10));
+            distanceCircle.setCenterY(peakHeight);
 
             mainMountain.getPoints().clear();
             mainMountain.getPoints().addAll(
-                400.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
+                400.0, schartenHeight,
+                600.0, schartenHeight,
+                500.0, peakHeight
+            );
+
+            neighbourMountain.getPoints().clear();
+            neighbourMountain.getPoints().addAll(
+                600.0, schartenHeight,
+                1000.0, schartenHeight,
+                500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
+            );
+
+            displayDistance.setX(500.0 + getDistanceValue() * 10 * 2 + 30);
+            displayDistance.setY(peakHeight + 10);
+            displayPeakHeight.setY(peakHeight);
+            displaySchartenHeight.setY(schartenHeight);
+        });
+
+        schartenValueProperty().addListener((observable, oldValue, newValue) ->
+        {
+            double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
+            double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+
+            schartenHeightCircle.setCenterX(500);
+            schartenHeightCircle.setCenterY(schartenHeight);
+
+            mainMountain.getPoints().clear();
+            mainMountain.getPoints().addAll(
+                400.0, schartenHeight,
+                600.0, schartenHeight,
                 500.0, ARTBOARD_HEIGHT - getPeakValue() / 10
             );
 
             neighbourMountain.getPoints().clear();
             neighbourMountain.getPoints().addAll(
-                600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                1000.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                500.0 + getDistanceValue() * 10 * 2 + 30, ARTBOARD_HEIGHT - (getPeakValue() / 10 + 20)
+                600.0, schartenHeight,
+                1000.0, schartenHeight,
+                500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
             );
 
-            displayDistance.setX(500.0 + getDistanceValue() * 10 * 2 + 30);
-            displayDistance.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - 10));
-            displayPeakHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 ));
-            displaySchartenHeight.setY(ARTBOARD_HEIGHT - ((getPeakValue() / 10 - getSchartenValue() / 10)));
-        });
-
-        schartenValueProperty().addListener((observable, oldValue, newValue) ->
-        {
-            schartenHeightCircle.setCenterX(500);
-            schartenHeightCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10));
-
-            mainMountain.getPoints().clear();
-            mainMountain.getPoints().addAll(
-                400.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                500.0, ARTBOARD_HEIGHT - getPeakValue() / 10
-            );
-            displaySchartenHeight.setY(ARTBOARD_HEIGHT - ((getPeakValue() / 10 - getSchartenValue() / 10)));
+            displaySchartenHeight.setY(schartenHeight);
         });
 
 
         distanceValueProperty().addListener((observable, oldValue, newValue) ->
         {
+            double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
+            double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+
             distanceCircle.setCenterX(500 + getDistanceValue() * 10 * 2);
             distanceCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10));
 
             neighbourMountain.getPoints().clear();
             neighbourMountain.getPoints().addAll(
-                600.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                1000.0, ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10),
-                500.0 + getDistanceValue() * 10 * 2 + 30, ARTBOARD_HEIGHT - (getPeakValue() / 10 + 20)
+                600.0, schartenHeight,
+                1000.0, schartenHeight,
+                500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
             );
             displayDistance.setX(500.0 + getDistanceValue() * 10 * 2 + 30);
-            displayDistance.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - 10));
+            displayDistance.setY(peakHeight + 10);
         });
 
 
@@ -262,9 +281,9 @@ public class MountainControl extends Region {
 
     private void setupBindings() {
         //ToDo: dieses Binding ersetzen
-        displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.2f"));
-        displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.2f"));
-        displayDistance.textProperty().bind(distanceValueProperty().asString(CH, "%.2f"));
+        displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.1f"));
+        displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.1f"));
+        displayDistance.textProperty().bind(distanceValueProperty().asString(CH, "%.1f"));
     }
 
     private void updateUI() {
