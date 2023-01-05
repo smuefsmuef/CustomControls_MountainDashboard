@@ -1,3 +1,15 @@
+@font-face{
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 900;
+    src: url('/fonts/Inter/Inter-Black.ttf') format('truetype');
+}
+
+@font-face{
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 400;
+    src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
+}
+
 .mountain-control {
     -fx-padding:          5;
     -fx-background-color: rgb(40, 126, 255);
@@ -21,7 +33,32 @@
 }
 
 .mountain-control .display {
-    -fx-font-family: 'Lato Light';
+    -fx-font-family: 'Inter Black';
     -fx-font-size:   24;
     -fx-fill:        derive(-base-color, 90%);
+}
+
+.mountain-control .display-peak-height {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:        white;
+}
+
+.mountain-control .display-scharten-height {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:        rgb(255, 0, 122);
+}
+
+.mountain-control .display-distance {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:        rgb(0, 99, 51);
+}
+
+.mountain-control .scale-label {
+    -fx-font-family: 'Inter Regular';
+    -fx-font-size:   15;
+    -fx-text-fill:  white;
+    -fx-text-alignment: right;
 }

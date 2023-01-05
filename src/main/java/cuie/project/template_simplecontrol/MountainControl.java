@@ -19,12 +19,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -32,6 +34,8 @@ import javafx.scene.text.TextBoundsType;
 import javafx.util.Duration;
 
 import static java.lang.String.valueOf;
+import static javafx.scene.paint.Color.WHITE;
+import static javafx.scene.paint.Color.rgb;
 
 /**
  * ToDo: CustomControl kurz beschreiben
@@ -61,9 +65,18 @@ public class MountainControl extends Region {
 
     private static final double MAXIMUM_WIDTH = 1500;
 
+    private static final int INSET = 160;
+
 
     private Polygon mainMountain;
     private Polygon neighbourMountain;
+    private Rectangle underground;
+
+    private Line heightScale;
+    private Label kilimandscharo;
+    private Label matterhorn;
+    private Label rigi;
+    private Label zuerich;
 
     private Circle schartenHeightCircle;
     private Circle distanceCircle;
@@ -72,23 +85,22 @@ public class MountainControl extends Region {
     private Text displaySchartenHeight;
     private Text displayDistance;
 
-
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
     private final DoubleProperty schartenValue = new SimpleDoubleProperty(895);
     private final DoubleProperty distanceValue = new SimpleDoubleProperty(7.2);
 
-    // ToDo: ergänzen mit allen CSS stylable properties
-    private static final CssMetaData<MountainControl, Color> BASE_COLOR_META_DATA =
-        FACTORY.createColorCssMetaData("-base-color", s -> s.baseColor);
-
-    private final StyleableObjectProperty<Color> baseColor =
-        new SimpleStyleableObjectProperty<Color>(BASE_COLOR_META_DATA) {
-            @Override
-            protected void invalidated() {
-                setStyle(String.format("%s: %s;", getCssMetaData().getProperty(), colorToCss(get())));
-                applyCss();
-            }
-        };
+//    // ToDo: ergänzen mit allen CSS stylable properties
+//    private static final CssMetaData<MountainControl, Color> BASE_COLOR_META_DATA =
+//        FACTORY.createColorCssMetaData("-base-color", s -> s.baseColor);
+//
+//    private final StyleableObjectProperty<Color> baseColor =
+//        new SimpleStyleableObjectProperty<Color>(BASE_COLOR_META_DATA) {
+//            @Override
+//            protected void invalidated() {
+//                setStyle(String.format("%s: %s;", getCssMetaData().getProperty(), colorToCss(get())));
+//                applyCss();
+//            }
+//        };
 
     // ToDo: Loeschen falls keine getaktete Animation benoetigt wird
     private final BooleanProperty blinking = new SimpleBooleanProperty(false);
@@ -133,16 +145,9 @@ public class MountainControl extends Region {
     }
 
     private void initializeParts() {
-        //ToDo: alle deklarierten Parts initialisieren
         double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
         double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
 
-        schartenHeightCircle = new Circle(500, schartenHeight, 10);
-        schartenHeightCircle.getStyleClass().add("scharten-circle");
-
-        distanceCircle =
-            new Circle(500 + getDistanceValue() * 10 * 2, peakHeight, 10);
-        distanceCircle.getStyleClass().add("distance-circle");
 
         mainMountain = new Polygon();
         mainMountain.getPoints().setAll(
@@ -160,13 +165,53 @@ public class MountainControl extends Region {
         );
         neighbourMountain.getStyleClass().add("neighbour-mountain");
 
+        underground = new Rectangle(INSET, schartenHeight, 1000-160, 700-schartenHeight);
+        underground.getStyleClass().add("neighbour-mountain");
 
-        displayPeakHeight = new Text(170, peakHeight, valueOf(getPeakValue()));
+        heightScale = new Line(160, 0, 160, 700);
+        heightScale.setStroke(WHITE);
+
+        kilimandscharo = new Label( "Kilimandscharo  \n---\n5895  ");
+        kilimandscharo.setLayoutX(43);
+        kilimandscharo.setLayoutY(700-589-45);
+        kilimandscharo.getStyleClass().add("scale-label");
+
+        matterhorn = new Label( "Matterhorn  \n---\n4478  ");
+        matterhorn.setLayoutX(72);
+        matterhorn.setLayoutY(700-448-38);
+        matterhorn.getStyleClass().add("scale-label");
+
+        zuerich = new Label( "Zürich  \n---\n403  ");
+        zuerich.setLayoutX(107);
+        zuerich.setLayoutY(700-40-45);
+        zuerich.getStyleClass().add("scale-label");
+
+        rigi = new Label( "Rigi  \n---\n1798  ");
+        rigi.setLayoutX(117);
+        rigi.setLayoutY(700-179-45);
+        rigi.getStyleClass().add("scale-label");
+
+        schartenHeightCircle = new Circle(500, schartenHeight, 10);
+        schartenHeightCircle.getStyleClass().add("scharten-circle");
+
+        distanceCircle =
+            new Circle(500 + getDistanceValue() * 10 * 2, peakHeight, 10);
+        distanceCircle.getStyleClass().add("distance-circle");
+
+
+        displayPeakHeight = new Text(170, peakHeight, "Gipfelhöhe: " +(getPeakValue()));
+        displayPeakHeight.getStyleClass().add("display-peak-height");
+
         displaySchartenHeight = new Text(170, schartenHeight,
-            valueOf(getSchartenValue()));
+            "Schartenhöhe: -" +(getSchartenValue()));
+        displaySchartenHeight.getStyleClass().add("display-scharten-height");
+        displaySchartenHeight.setOpacity(0.5);
         displayDistance =
             new Text(500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight + 10,
-                valueOf(getDistanceValue()));
+                "Dominanz: " +valueOf(getDistanceValue()));
+        displayDistance.setText("Dominanz: ");
+        displayDistance.getStyleClass().add("display-distance");
+        displayDistance.setOpacity(0.5);
     }
 
     private void initializeDrawingPane() {
@@ -184,7 +229,8 @@ public class MountainControl extends Region {
     private void layoutParts() {
         //ToDo: alle Parts zur drawingPane hinzufügen
         drawingPane.getChildren().addAll(
-            mainMountain, neighbourMountain,
+            mainMountain, neighbourMountain, underground,
+            heightScale, kilimandscharo, matterhorn, rigi, zuerich,
             schartenHeightCircle, distanceCircle,
             displaySchartenHeight, displayPeakHeight, displayDistance);
 
@@ -204,12 +250,6 @@ public class MountainControl extends Region {
             double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
             double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
 
-            schartenHeightCircle.setCenterX(500);
-            schartenHeightCircle.setCenterY(schartenHeight);
-
-            distanceCircle.setCenterX(500 + getDistanceValue() * 10 * 2);
-            distanceCircle.setCenterY(peakHeight);
-
             mainMountain.getPoints().clear();
             mainMountain.getPoints().addAll(
                 400.0, schartenHeight,
@@ -223,6 +263,15 @@ public class MountainControl extends Region {
                 1000.0, schartenHeight,
                 500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
             );
+
+            underground.setY(schartenHeight);
+            underground.setHeight(700-schartenHeight);
+
+            schartenHeightCircle.setCenterX(500);
+            schartenHeightCircle.setCenterY(schartenHeight);
+
+            distanceCircle.setCenterX(500 + getDistanceValue() * 10 * 2);
+            distanceCircle.setCenterY(peakHeight);
 
             displayDistance.setX(500.0 + getDistanceValue() * 10 * 2 + 30);
             displayDistance.setY(peakHeight + 10);
@@ -252,6 +301,8 @@ public class MountainControl extends Region {
                 500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
             );
 
+            underground.setY(schartenHeight);
+            underground.setHeight(700-schartenHeight);
             displaySchartenHeight.setY(schartenHeight);
         });
 
@@ -270,6 +321,9 @@ public class MountainControl extends Region {
                 1000.0, schartenHeight,
                 500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight - 20
             );
+            underground.setY(schartenHeight);
+            underground.setHeight(700-schartenHeight);
+
             displayDistance.setX(500.0 + getDistanceValue() * 10 * 2 + 30);
             displayDistance.setY(peakHeight + 10);
         });
@@ -597,17 +651,17 @@ public class MountainControl extends Region {
     // ToDo: ersetzen durch die Getter und Setter Ihres CustomControls
 
 
-    public Color getBaseColor() {
-        return baseColor.get();
-    }
+//    public Color getBaseColor() {
+//        return baseColor.get();
+//    }
 
-    public StyleableObjectProperty<Color> baseColorProperty() {
-        return baseColor;
-    }
-
-    public void setBaseColor(Color baseColor) {
-        this.baseColor.set(baseColor);
-    }
+//    public StyleableObjectProperty<Color> baseColorProperty() {
+//        return baseColor;
+//    }
+//
+//    public void setBaseColor(Color baseColor) {
+//        this.baseColor.set(baseColor);
+//    }
 
     public boolean isBlinking() {
         return blinking.get();
