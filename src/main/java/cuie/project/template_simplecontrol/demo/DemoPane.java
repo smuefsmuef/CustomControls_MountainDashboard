@@ -1,5 +1,6 @@
 package cuie.project.template_simplecontrol.demo;
 
+import cuie.project.template_simplecontrol.MountainSliderControl;
 import javafx.geometry.Insets;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ public class DemoPane extends BorderPane {
 
     // declare the custom control
     private MountainControl cc;
+    private MountainSliderControl mountainSliderControl;
 
     // all controls
     private Slider      peakSlider;
@@ -32,6 +34,8 @@ public class DemoPane extends BorderPane {
     private void initializeControls() {
         setPadding(new Insets(10));
 
+
+
         cc = new MountainControl();
 
         peakSlider = new Slider(0, 5000, 4357);
@@ -45,6 +49,8 @@ public class DemoPane extends BorderPane {
 
 
         //colorPicker = new ColorPicker();
+
+        mountainSliderControl = new MountainSliderControl();
     }
 
     private void layoutControls() {
@@ -57,7 +63,8 @@ public class DemoPane extends BorderPane {
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
 
-        setCenter(cc);
+      //  setCenter(cc); temp. ausgeschalten
+        setLeft(mountainSliderControl);
         setRight(controlPane);
     }
 
@@ -74,6 +81,10 @@ public class DemoPane extends BorderPane {
         cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
         cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+
+
+        mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+
 
     }
 

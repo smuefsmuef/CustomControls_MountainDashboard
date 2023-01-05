@@ -25,3 +25,29 @@
     -fx-font-size:   24;
     -fx-fill:        derive(-base-color, 90%);
 }
+
+
+/*Mountain Slider Control*/
+
+.mountain-slider-control {
+    -fx-padding:          5;
+    -fx-background-color: rgb(247, 250, 251);
+    -text-color: rgb(84, 104, 134);
+}
+
+
+.mountain-slider-control .background-line {
+    -fx-stroke: rgb(226, 233, 244);
+}
+
+.mountain-slider-control .value-line {
+    -fx-stroke: rgb(157, 187, 232);
+}
+
+.mountain-slider-control .thumb {
+    -fx-fill: rgb(157, 187, 232);
+}
+
+.mountain-slider-control .text {
+    -text-color: rgb(84, 104, 134);
+}
