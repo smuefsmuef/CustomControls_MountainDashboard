@@ -1,22 +1,8 @@
 package cuie.project.template_simplecontrol;
 
-import static java.lang.String.valueOf;
-import static javafx.scene.shape.StrokeLineJoin.ROUND;
-
-import java.util.List;
 import java.util.Locale;
-import javafx.animation.AnimationTimer;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.css.CssMetaData;
-import javafx.css.SimpleStyleableObjectProperty;
-import javafx.css.Styleable;
-import javafx.css.StyleableObjectProperty;
-import javafx.css.StyleablePropertyFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
@@ -26,13 +12,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
-import javafx.util.Duration;
 
 /**
  * ToDo: CustomControl kurz beschreiben
@@ -41,14 +25,6 @@ import javafx.util.Duration;
  */
 
 public class MountainSliderControl extends Region {
-//    // wird gebraucht fuer StyleableProperties
-//    private static final StyleablePropertyFactory<MountainSliderControl> FACTORY =
-//        new StyleablePropertyFactory<>(Region.getClassCssMetaData());
-//
-//    @Override
-//    public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
-//        return FACTORY.getCssMetaData();
-//    }
 
    private static final Locale CH = new Locale("de", "CH");
 
@@ -69,26 +45,7 @@ public class MountainSliderControl extends Region {
     private Text displayPeakHeight;
     private Text displayPeakLabel;
 
-//    private Text displaySchartenHeight;
-//    private Text displayDistance;
-
-
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
-
-//
-//    // ToDo: ergänzen mit allen CSS stylable properties
-//    private static final CssMetaData<MountainSliderControl, Color> BASE_COLOR_META_DATA =
-//        FACTORY.createColorCssMetaData("-base-color", s -> s.baseColor);
-//
-//    private final StyleableObjectProperty<Color> baseColor =
-//        new SimpleStyleableObjectProperty<Color>(BASE_COLOR_META_DATA) {
-//            @Override
-//            protected void invalidated() {
-//                setStyle(String.format("%s: %s;", getCssMetaData().getProperty(), colorToCss(get())));
-//                applyCss();
-//            }
-//        };
-
 
 
     // fuer Resizing benoetigt
@@ -127,15 +84,17 @@ public class MountainSliderControl extends Region {
         peakValueLine.setStartY(11);
         peakValueLine.setEndX(64);
         peakValueLine.setEndY(11);
+        peakValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
         peakValueLine.getStyleClass().add("value-line");
 
-        peakThumb = new Circle(7, 11, 5);
+        peakThumb = new Circle(7, 11, 1);
         peakThumb.getStyleClass().add("thumb");
 
-        displayPeakHeight = new Text("22");
-        displayPeakHeight = createCenteredText("text");
+        displayPeakHeight = new Text(94-10, 8,"");
+        displayPeakHeight.getStyleClass().add("text");
 
-        displayPeakLabel = new Text("Gipfelhöhe");
+        displayPeakLabel = new Text(7, 8,"Gipfelhöhe m.ü.M.");
+        displayPeakLabel.getStyleClass().add("text");
 
     }
 
@@ -149,30 +108,29 @@ public class MountainSliderControl extends Region {
 
 
     private void layoutParts() {
-        drawingPane.getChildren().addAll(peakBackgroundLine, peakValueLine, peakThumb, displayPeakHeight, displayPeakLabel);
+        drawingPane.getChildren().addAll(peakBackgroundLine, peakValueLine,peakThumb,  displayPeakHeight, displayPeakLabel);
 
         getChildren().add(drawingPane);
     }
 
     private void setupEventHandlers() {
         peakThumb.setOnMouseDragged( event -> {
-            double newValue = radialMousePositionToValue(event.getX(), event.getY(), ARTBOARD_WIDTH*0.5, ARTBOARD_HEIGHT*0.5, 0, 100); // umrechnung von der aktuellen mouseposition zum value todo: min/max später setzen
-            setPeakValue(newValue * (getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())/4800); // auf den neuen wert setzen (line = 89px = 4800m-ü-M ch berg)
+            // todo set max peak thumb value
+            setPeakValue(event.getX()*4800/94);
         });    }
 
     private void setupValueChangeListeners() {
         peakValueProperty().addListener((observable, oldValue, newValue) ->
         {
-            peakValueLine.setEndX((Double) newValue); // todo fix plus mouve thumb too
-
+            peakValueLine.setEndX((Double) newValue);
         });
 
     }
 
     private void setupBindings() {
         displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.1f"));
-        peakValueLine.endXProperty().bind(peakValueProperty());
         peakValueLine.endXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800) );
+        peakThumb.centerXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800));
     }
 
 
@@ -182,7 +140,6 @@ public class MountainSliderControl extends Region {
         resize();
     }
 
-    //ToDo: ueberpruefen ob dieser Resizing-Ansatz anwendbar ist.
     private void resize() {
         Insets padding = getPadding();
         double availableWidth = getWidth() - padding.getLeft() - padding.getRight();

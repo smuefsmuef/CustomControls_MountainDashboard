@@ -64,7 +64,7 @@ public class DemoPane extends BorderPane {
         controlPane.setSpacing(10);
 
       //  setCenter(cc); temp. ausgeschalten
-        setLeft(mountainSliderControl);
+        setCenter(mountainSliderControl);
         setRight(controlPane);
     }
 
