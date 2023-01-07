@@ -1,7 +1,9 @@
 package cuie.project.template_simplecontrol;
 
 import java.util.Locale;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -46,6 +48,7 @@ public class MountainSliderControl extends Region {
     private Text displayPeakLabel;
 
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
+    private final BooleanProperty on          = new SimpleBooleanProperty(true);
 
 
     // fuer Resizing benoetigt
@@ -65,7 +68,12 @@ public class MountainSliderControl extends Region {
         loadFonts("/fonts/Lato/Lato-Lig.ttf", "/fonts/Lato/Lato-Reg.ttf");
         addStylesheetFiles("style.css");
 
-        getStyleClass().add("mountain-slider-control"); // todo change to mountain-slider-control
+        //init
+        if(!isOn()) {
+            getStyleClass().add("mountain-slider-dark-control");
+        } else {
+            getStyleClass().add("mountain-slider-control");
+        }
     }
 
     private void initializeParts() {
@@ -93,7 +101,7 @@ public class MountainSliderControl extends Region {
         displayPeakHeight = new Text(94-10, 8,"");
         displayPeakHeight.getStyleClass().add("text");
 
-        displayPeakLabel = new Text(7, 8,"Gipfelhöhe m.ü.M.");
+        displayPeakLabel = new Text(7, 8,"Gipfelhöhe M.ü.M.");
         displayPeakLabel.getStyleClass().add("text");
 
     }
@@ -123,6 +131,17 @@ public class MountainSliderControl extends Region {
         peakValueProperty().addListener((observable, oldValue, newValue) ->
         {
             peakValueLine.setEndX((Double) newValue);
+        });
+
+        onProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(true)) {
+                getStyleClass().remove("mountain-slider-control");
+                getStyleClass().add("mountain-slider-dark-control");
+
+            } else {
+                getStyleClass().remove("mountain-slider-dark-control");
+                getStyleClass().add("mountain-slider-control");
+            }
         });
 
     }
@@ -477,5 +496,25 @@ public class MountainSliderControl extends Region {
 
     public void setDrawingPane(Pane drawingPane) {
         this.drawingPane = drawingPane;
+    }
+
+    public Text getDisplayPeakLabel() {
+        return displayPeakLabel;
+    }
+
+    public void setDisplayPeakLabel(Text displayPeakLabel) {
+        this.displayPeakLabel = displayPeakLabel;
+    }
+
+    public boolean isOn() {
+        return on.get();
+    }
+
+    public BooleanProperty onProperty() {
+        return on;
+    }
+
+    public void setOn(boolean on) {
+        this.on.set(on);
     }
 }

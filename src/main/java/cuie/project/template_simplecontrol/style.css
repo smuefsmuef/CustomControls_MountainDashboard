@@ -26,7 +26,6 @@
     -fx-fill:        derive(-base-color, 90%);
 }
 
-
 /*Mountain Slider Control*/
 
 .mountain-slider-control {
@@ -34,7 +33,6 @@
     -fx-background-color: rgb(247, 250, 251);
     -text-color: rgb(84, 104, 134);
 }
-
 
 .mountain-slider-control .background-line {
     -fx-stroke: rgb(226, 233, 244);
@@ -54,5 +52,37 @@
     -fx-font-family: 'Lato Light';
     -fx-font-size: 3;
     -fx-fill: rgb(84, 104, 134);
+}
 
+/*Mountain Slider Control Dark Theme*/
+
+.mountain-slider-dark-control {
+    -blue-dark: rgb(84, 104, 134);
+    -white-blue-light: rgb(226, 233, 244);
+    -white-blue: rgb(191, 239, 118);
+    -pink: rgb(255, 29, 162);
+    -fx-padding:          5;
+    -fx-background-color: -blue-dark;
+    -text-color: -white-blue-light;
+
+}
+
+.mountain-slider-dark-control .background-line {
+    -fx-stroke:  -white-blue-light;
+    -fx-stroke-width: 2;
+}
+
+.mountain-slider-dark-control .value-line {
+    -fx-stroke: -white-blue;
+    -fx-stroke-width: 2;
+}
+
+.mountain-slider-dark-control .thumb {
+    -fx-fill: -pink;
+}
+
+.mountain-slider-dark-control .text {
+    -fx-font-family: 'Lato Light';
+    -fx-font-size: 3;
+    -fx-fill: -white-blue;
 }

@@ -2,7 +2,7 @@ package cuie.project.template_simplecontrol.demo;
 
 import cuie.project.template_simplecontrol.MountainSliderControl;
 import javafx.geometry.Insets;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
@@ -22,7 +22,7 @@ public class DemoPane extends BorderPane {
     private Slider      peakSlider;
     private Slider      schartenSlider;
     private Slider      distanceSlider;
-    private ColorPicker colorPicker;
+    private CheckBox darkThemeOnBox;
 
     public DemoPane(PresentationModel pm) {
         this.pm = pm;
@@ -34,9 +34,8 @@ public class DemoPane extends BorderPane {
     private void initializeControls() {
         setPadding(new Insets(10));
 
-
-
         cc = new MountainControl();
+        mountainSliderControl = new MountainSliderControl();
 
         peakSlider = new Slider(0, 5000, 4357);
         peakSlider.setShowTickLabels(true);
@@ -47,18 +46,15 @@ public class DemoPane extends BorderPane {
         distanceSlider = new Slider(5, 20, 7.2);
         distanceSlider.setShowTickLabels(true);
 
+        darkThemeOnBox = new CheckBox("Darktheme");
 
-        //colorPicker = new ColorPicker();
-
-        mountainSliderControl = new MountainSliderControl();
     }
 
     private void layoutControls() {
         VBox controlPane = new VBox(
             new Label("Gipfelhöhe"), peakSlider,
             new Label("Schartenhöhe"), schartenSlider,
-            new Label("Kilometer bis zum nächsten grösseren Berg"), distanceSlider
-            //new Label("Farbpicker"), colorPicker
+            new Label("Kilometer bis zum nächsten grösseren Berg"), distanceSlider, darkThemeOnBox
             );
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
@@ -76,6 +72,7 @@ public class DemoPane extends BorderPane {
         peakSlider.valueProperty().bindBidirectional(pm.peakValueProperty());
         schartenSlider.valueProperty().bindBidirectional(pm.schartenValueProperty());
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
+        darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
 
         cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
@@ -84,8 +81,7 @@ public class DemoPane extends BorderPane {
 
 
         mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
-
-
+        mountainSliderControl.onProperty().bindBidirectional(pm.onProperty());
     }
 
 }
