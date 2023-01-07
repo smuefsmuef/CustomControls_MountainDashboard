@@ -17,6 +17,8 @@ public class DemoStarter extends Application {
         primaryStage.setTitle("Simple Control Demo");
         primaryStage.setScene(scene);
 
+
+
         primaryStage.show();
     }
 

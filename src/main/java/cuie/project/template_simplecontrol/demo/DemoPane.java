@@ -1,11 +1,13 @@
 package cuie.project.template_simplecontrol.demo;
 
 import cuie.project.template_simplecontrol.MountainSliderControl;
+import cuie.project.template_simplecontrol.ThemeControl;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import cuie.project.template_simplecontrol.MountainControl;
@@ -17,12 +19,13 @@ public class DemoPane extends BorderPane {
     // declare the custom control
     private MountainControl cc;
     private MountainSliderControl mountainSliderControl;
+    private ThemeControl themeControl;
 
     // all controls
     private Slider      peakSlider;
     private Slider      schartenSlider;
     private Slider      distanceSlider;
-    private CheckBox darkThemeOnBox;
+    private CheckBox    darkThemeOnBox;
 
     public DemoPane(PresentationModel pm) {
         this.pm = pm;
@@ -36,6 +39,7 @@ public class DemoPane extends BorderPane {
 
         cc = new MountainControl();
         mountainSliderControl = new MountainSliderControl();
+        themeControl = new ThemeControl();
 
         peakSlider = new Slider(0, 5000, 4357);
         peakSlider.setShowTickLabels(true);
@@ -59,9 +63,17 @@ public class DemoPane extends BorderPane {
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
 
-      //  setCenter(cc); temp. ausgeschalten
-        setCenter(mountainSliderControl);
+
+        VBox dashboard = new VBox( themeControl, mountainSliderControl);
+        HBox test = new HBox(dashboard, cc);
+
+        // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
+       // setTop(dashboard);
+       setCenter(test);
         setRight(controlPane);
+
+        getStyleClass().add("frame");
+
     }
 
     private void setupBindings() {
@@ -82,6 +94,8 @@ public class DemoPane extends BorderPane {
         mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
         mountainSliderControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
         mountainSliderControl.onProperty().bindBidirectional(pm.onProperty());
+
+        themeControl.onProperty().bindBidirectional(pm.onProperty());
     }
 
 }

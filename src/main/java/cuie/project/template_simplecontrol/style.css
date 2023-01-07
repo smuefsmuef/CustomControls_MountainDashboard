@@ -8,6 +8,7 @@
     -blue: rgb(40, 126, 255);
 }
 
+
 .mountain-control {
     -fx-padding: 5;
     -fx-background-color: -blue;
@@ -42,6 +43,7 @@
  .mountain-slider-control {
     -fx-padding:          5;
     -fx-background-color: -white;
+     -fx-border-color: -white-blue-light;
 }
 
 .mountain-slider-control .background-line {
@@ -90,3 +92,15 @@
     -fx-font-size: 3;
     -fx-fill: -white-blue-light;
 }
+
+/*Button Switch Control*/
+.mountain-slider-control .button {
+    -fx-fill:  -white;
+}
+
+.mountain-slider-dark-control .button {
+    -fx-fill: rgb(42, 52, 66);
+}
+
+
+
