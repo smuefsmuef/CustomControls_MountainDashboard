@@ -82,15 +82,7 @@ public class MountainControl extends Region {
     private Label zuerich;
 
     private Circle schartenCircle;
-
-    private PathTransition schartenCircleTransition;
-    private Path schartenPath;
-    private LineTo schartenLineTo;
-    private MoveTo schartenMoveTo;
-
     private Circle distanceCircle;
-    private Path distancePath;
-    private PathTransition distanceCircleTransition;
 
     private Text displayPeakHeight;
     private Text displaySchartenHeight;
@@ -130,11 +122,14 @@ public class MountainControl extends Region {
     };
 
     // ToDo: alle Animationen und Timelines deklarieren
+    private PathTransition schartenCircleTransition;
+    private Path schartenPath;
 
-    //private final Timeline timeline = new Timeline();
+    private Path distancePath;
+    private PathTransition distanceCircleTransition;
 
 
-    // fuer Resizing benoetigt
+
     private Pane drawingPane;
 
     public MountainControl() {
@@ -158,8 +153,8 @@ public class MountainControl extends Region {
     private void initializeParts() {
         double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
         double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
-        double distance = getDistanceValue() * 10 * 2 + 20;
-
+        double neighbourPeakHeight = peakHeight - 30;
+        double distance = getDistanceValue() * 10 * 2 +20;
 
         mainMountain = new Polygon();
         mainMountain.getPoints().setAll(
@@ -173,7 +168,7 @@ public class MountainControl extends Region {
         neighbourMountain.getPoints().setAll(
             600.0, schartenHeight,
             1000.0, schartenHeight,
-            (500.0 + distance), (peakHeight - 20)
+            (500.0 + distance), (neighbourPeakHeight)
         );
         neighbourMountain.getStyleClass().add("neighbour-mountain");
 
@@ -206,35 +201,26 @@ public class MountainControl extends Region {
         schartenCircle = new Circle(500, peakHeight, 10);
         schartenCircle.getStyleClass().add("scharten-circle");
 
-        schartenPath = new Path();
-        schartenPath.getElements().add(new MoveTo(500, peakHeight));
-        schartenPath.getElements().add(new LineTo(500.0, schartenHeight));
-        schartenPath.setStroke(Color.DODGERBLUE);
-        schartenPath.getStrokeDashArray().setAll(5d, 5d);
-
         distanceCircle =
             new Circle(500, peakHeight, 10);
         distanceCircle.getStyleClass().add("distance-circle");
 
-        distancePath = new Path(new MoveTo(500, peakHeight),
-            new LineTo(500.0 + distance, peakHeight));
-        distancePath.setStroke(Color.DODGERBLUE);
-        distancePath.getStrokeDashArray().setAll(5d, 5d);
-
-
         displayPeakHeight = new Text(170, peakHeight, "Gipfelhöhe: " +(getPeakValue()));
         displayPeakHeight.getStyleClass().add("display-peak-height");
 
-        displaySchartenHeight = new Text(170, schartenHeight,
+
+        displaySchartenHeight = new Text(350, ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2),
             "Schartenhöhe: -" +(getSchartenValue()));
         displaySchartenHeight.getStyleClass().add("display-scharten-height");
-        displaySchartenHeight.setOpacity(0.5);
+        displaySchartenHeight.setOpacity(0.0);
+
+
         displayDistance =
-            new Text(500.0 + getDistanceValue() * 10 * 2 + 30, peakHeight + 10,
-                "Dominanz: " +valueOf(getDistanceValue()));
-        displayDistance.setText("Dominanz: ");
+            new Text("Dominanz: ");
+        displayDistance.setX(500.0 + distance/2);
+        displayDistance.setY(neighbourPeakHeight+20);
         displayDistance.getStyleClass().add("display-distance");
-        displayDistance.setOpacity(0.5);
+        displayDistance.setOpacity(0.0);
     }
 
     private void initializeDrawingPane() {
@@ -247,6 +233,21 @@ public class MountainControl extends Region {
 
     private void initializeAnimations() {
         //ToDo: alle deklarierten Animationen initialisieren
+        double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
+        double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+        double distance = getDistanceValue() * 10 * 2 +20;
+
+        schartenPath = new Path();
+        schartenPath.getElements().add(new MoveTo(500, peakHeight));
+        schartenPath.getElements().add(new LineTo(500.0, schartenHeight));
+        schartenPath.setStroke(Color.DODGERBLUE);
+        schartenPath.getStrokeDashArray().setAll(5d, 5d);
+
+        distancePath = new Path(new MoveTo(500, peakHeight),
+            new LineTo(500.0 + distance, peakHeight));
+        distancePath.setStroke(Color.DODGERBLUE);
+        distancePath.getStrokeDashArray().setAll(5d, 5d);
+
     }
 
     private void layoutParts() {
@@ -271,6 +272,7 @@ public class MountainControl extends Region {
 
             if (!schartenCircleTransition.getStatus().equals(Animation.Status.RUNNING)) {
                 schartenCircleTransition.play();
+                displaySchartenHeight.setOpacity(0.5);
             }
         });
 
@@ -284,7 +286,9 @@ public class MountainControl extends Region {
 
             if (!distanceCircleTransition.getStatus().equals(Animation.Status.RUNNING)) {
                 distanceCircleTransition.play();
+
             }
+            displayDistance.setOpacity(1.0);
         });
     }
 
@@ -296,6 +300,7 @@ public class MountainControl extends Region {
         {
             double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
             double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+            double neighbourPeakHeight = peakHeight - 30;
             double distance = getDistanceValue() * 10 * 2 + 20;
 
             mainMountain.getPoints().clear();
@@ -309,16 +314,17 @@ public class MountainControl extends Region {
             neighbourMountain.getPoints().addAll(
                 600.0, schartenHeight,
                 1000.0, schartenHeight,
-                500.0 + distance, peakHeight - 20
+                500.0 + distance, neighbourPeakHeight
             );
 
             underground.setY(schartenHeight);
             underground.setHeight(700-schartenHeight);
 
-            displayDistance.setX(500.0 + distance);
-            displayDistance.setY(peakHeight + 10);
             displayPeakHeight.setY(peakHeight);
-            displaySchartenHeight.setY(schartenHeight);
+            displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2));
+
+            displayDistance.setX(500.0 + distance/2);
+            displayDistance.setY(neighbourPeakHeight+20);
 
             schartenCircle.setCenterX(500);
             schartenCircle.setCenterY(peakHeight);
@@ -327,13 +333,14 @@ public class MountainControl extends Region {
             schartenPath.getElements().add(new MoveTo(500, peakHeight));
             schartenPath.getElements().add(new LineTo(500.0, schartenHeight));
 
+            displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2));
+
             distanceCircle.setCenterX(500);
             distanceCircle.setCenterY(peakHeight);
 
             distancePath.getElements().clear();
             distancePath.getElements().add(new MoveTo(500, peakHeight));
             distancePath.getElements().add(new LineTo(500.0 + distance, peakHeight));
-
         });
 
         schartenValueProperty().addListener((observable, oldValue, newValue) ->
@@ -341,6 +348,7 @@ public class MountainControl extends Region {
             double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
             double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
             double distance = getDistanceValue() * 10 * 2 + 20;
+            double neighbourPeakHeight = peakHeight - 30;
 
             mainMountain.getPoints().clear();
             mainMountain.getPoints().addAll(
@@ -353,13 +361,13 @@ public class MountainControl extends Region {
             neighbourMountain.getPoints().addAll(
                 600.0, schartenHeight,
                 1000.0, schartenHeight,
-                500.0 + distance, peakHeight - 20
+                500.0 + distance, neighbourPeakHeight
             );
 
             underground.setY(schartenHeight);
             underground.setHeight(700-schartenHeight);
 
-            displaySchartenHeight.setY(schartenHeight);
+            displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2));
 
             schartenCircle.setCenterX(500);
             schartenCircle.setCenterY(peakHeight);
@@ -374,19 +382,20 @@ public class MountainControl extends Region {
         {
             double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
             double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+            double neighbourPeakHeight = peakHeight - 30;
             double distance = getDistanceValue() * 10 * 2 + 20;
 
             neighbourMountain.getPoints().clear();
             neighbourMountain.getPoints().addAll(
                 600.0, schartenHeight,
                 1000.0, schartenHeight,
-                500.0 + distance, peakHeight - 20
+                500.0 + distance, neighbourPeakHeight
             );
             underground.setY(schartenHeight);
             underground.setHeight(700-schartenHeight);
 
-            displayDistance.setX(500.0 + distance);
-            displayDistance.setY(peakHeight + 10);
+            displayDistance.setX(500.0 + distance/2);
+            displayDistance.setY(neighbourPeakHeight+20);
 
             distanceCircle.setCenterX(500);
             distanceCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10));
