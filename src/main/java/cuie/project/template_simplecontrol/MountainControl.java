@@ -3,7 +3,9 @@ package cuie.project.template_simplecontrol;
 import java.util.List;
 import java.util.Locale;
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,9 +13,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.CssMetaData;
-import javafx.css.SimpleStyleableObjectProperty;
 import javafx.css.Styleable;
-import javafx.css.StyleableObjectProperty;
 import javafx.css.StyleablePropertyFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -25,6 +25,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -78,8 +81,12 @@ public class MountainControl extends Region {
     private Label rigi;
     private Label zuerich;
 
-    private Circle schartenHeightCircle;
+    private Circle schartenCircle;
     private Circle distanceCircle;
+    private PathTransition schartenCircleTransition;
+    private Path schartenPath;
+    private Path distancePath;
+    private PathTransition distanceCircleTransition;
 
     private Text displayPeakHeight;
     private Text displaySchartenHeight;
@@ -147,6 +154,7 @@ public class MountainControl extends Region {
     private void initializeParts() {
         double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
         double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
+        double distance = getDistanceValue() * 10 * 2 + 20;
 
 
         mainMountain = new Polygon();
@@ -161,7 +169,7 @@ public class MountainControl extends Region {
         neighbourMountain.getPoints().setAll(
             600.0, schartenHeight,
             1000.0, schartenHeight,
-            (500.0 + getDistanceValue() * 10 * 2 + 30), (peakHeight - 20)
+            (500.0 + distance), (peakHeight - 20)
         );
         neighbourMountain.getStyleClass().add("neighbour-mountain");
 
@@ -191,12 +199,22 @@ public class MountainControl extends Region {
         rigi.setLayoutY(700-179-45);
         rigi.getStyleClass().add("scale-label");
 
-        schartenHeightCircle = new Circle(500, schartenHeight, 10);
-        schartenHeightCircle.getStyleClass().add("scharten-circle");
+        schartenCircle = new Circle(500, peakHeight, 10);
+        schartenCircle.getStyleClass().add("scharten-circle");
+
+        schartenPath = new Path(new MoveTo(500, peakHeight),
+            new LineTo(500.0, schartenHeight));
+        schartenPath.setStroke(Color.DODGERBLUE);
+        schartenPath.getStrokeDashArray().setAll(5d, 5d);
 
         distanceCircle =
-            new Circle(500 + getDistanceValue() * 10 * 2, peakHeight, 10);
+            new Circle(500, peakHeight, 10);
         distanceCircle.getStyleClass().add("distance-circle");
+
+        distancePath = new Path(new MoveTo(500, peakHeight),
+            new LineTo(500.0 + distance, peakHeight));
+        distancePath.setStroke(Color.DODGERBLUE);
+        distancePath.getStrokeDashArray().setAll(5d, 5d);
 
 
         displayPeakHeight = new Text(170, peakHeight, "Gipfelhöhe: " +(getPeakValue()));
@@ -231,14 +249,38 @@ public class MountainControl extends Region {
         drawingPane.getChildren().addAll(
             mainMountain, neighbourMountain, underground,
             heightScale, kilimandscharo, matterhorn, rigi, zuerich,
-            schartenHeightCircle, distanceCircle,
+            schartenCircle, distanceCircle, schartenPath, distancePath,
             displaySchartenHeight, displayPeakHeight, displayDistance);
 
         getChildren().add(drawingPane);
     }
 
     private void setupEventHandlers() {
-        //ToDo: bei Bedarf ergänzen
+        schartenCircle.setOnMouseClicked(event -> {
+            if (schartenCircleTransition == null) {
+                schartenCircleTransition = new PathTransition(Duration.seconds(1), schartenPath, schartenCircle);
+                schartenCircleTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+                schartenCircleTransition.setCycleCount(3);
+                schartenCircleTransition.setAutoReverse(true);
+            }
+
+            if (!schartenCircleTransition.getStatus().equals(Animation.Status.RUNNING)) {
+                schartenCircleTransition.play();
+            }
+        });
+
+        distanceCircle.setOnMouseClicked(event -> {
+            if (distanceCircleTransition == null) {
+                distanceCircleTransition = new PathTransition(Duration.seconds(1), distancePath, distanceCircle);
+                distanceCircleTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+                distanceCircleTransition.setCycleCount(3);
+                distanceCircleTransition.setAutoReverse(true);
+            }
+
+            if (!distanceCircleTransition.getStatus().equals(Animation.Status.RUNNING)) {
+                distanceCircleTransition.play();
+            }
+        });
     }
 
     private void setupValueChangeListeners() {
@@ -267,8 +309,8 @@ public class MountainControl extends Region {
             underground.setY(schartenHeight);
             underground.setHeight(700-schartenHeight);
 
-            schartenHeightCircle.setCenterX(500);
-            schartenHeightCircle.setCenterY(schartenHeight);
+            schartenCircle.setCenterX(500);
+            schartenCircle.setCenterY(schartenHeight);
 
             distanceCircle.setCenterX(500 + getDistanceValue() * 10 * 2);
             distanceCircle.setCenterY(peakHeight);
@@ -284,8 +326,8 @@ public class MountainControl extends Region {
             double schartenHeight = ARTBOARD_HEIGHT - (getPeakValue() / 10 - getSchartenValue() / 10);
             double peakHeight = ARTBOARD_HEIGHT - getPeakValue() / 10;
 
-            schartenHeightCircle.setCenterX(500);
-            schartenHeightCircle.setCenterY(schartenHeight);
+            schartenCircle.setCenterX(500);
+            schartenCircle.setCenterY(schartenHeight);
 
             mainMountain.getPoints().clear();
             mainMountain.getPoints().addAll(
@@ -704,12 +746,12 @@ public class MountainControl extends Region {
         this.neighbourMountain = neighbourMountain;
     }
 
-    public Circle getSchartenHeightCircle() {
-        return schartenHeightCircle;
+    public Circle getSchartenCircle() {
+        return schartenCircle;
     }
 
-    public void setSchartenHeightCircle(Circle schartenHeightCircle) {
-        this.schartenHeightCircle = schartenHeightCircle;
+    public void setSchartenCircle(Circle schartenCircle) {
+        this.schartenCircle = schartenCircle;
     }
 
     public Circle getDistanceCircle() {
