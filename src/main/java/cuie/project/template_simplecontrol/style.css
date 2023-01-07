@@ -1,23 +1,33 @@
+* {
+    -blue-dark: rgb(84, 104, 134);
+    -white:rgb(247, 250, 251);
+    -white-blue-light: rgb(226, 233, 244);
+    -blue-light: rgb(157, 187, 232);
+    -green: rgb(0, 214, 111);
+    -pink: rgb(255, 29, 162);
+    -blue: rgb(40, 126, 255);
+}
+
 .mountain-control {
-    -fx-padding:          5;
-    -fx-background-color: rgb(40, 126, 255);
-    -text-color:          rgb(255, 255, 255);
+    -fx-padding: 5;
+    -fx-background-color: -blue;
+    -text-color: -white;
 }
 
 .mountain-control .scharten-circle {
-    -fx-fill: rgb(255, 74, 161);
+    -fx-fill: -pink;
 }
 
 .mountain-control .distance-circle {
-    -fx-fill: rgb(0, 214, 111);
+    -fx-fill: -green;
 }
 
 .mountain-control .main-mountain {
-    -fx-fill: white;
+    -fx-fill: -white;
 }
 
 .mountain-control .neighbour-mountain {
-    -fx-fill: rgb(157,187,232);
+    -fx-fill: -blue-light;
 }
 
 .mountain-control .display {
@@ -26,45 +36,39 @@
     -fx-fill:        derive(-base-color, 90%);
 }
 
+
 /*Mountain Slider Control*/
 
-.mountain-slider-control {
+ .mountain-slider-control {
     -fx-padding:          5;
-    -fx-background-color: rgb(247, 250, 251);
-    -text-color: rgb(84, 104, 134);
+    -fx-background-color: -white;
 }
 
 .mountain-slider-control .background-line {
-    -fx-stroke: rgb(226, 233, 244);
+    -fx-stroke: -white-blue-light;
     -fx-stroke-width: 2;
 }
 
 .mountain-slider-control .value-line {
-    -fx-stroke: rgb(157, 187, 232);
+    -fx-stroke: -blue-light;
     -fx-stroke-width: 2;
 }
 
 .mountain-slider-control .thumb {
-    -fx-fill: rgb(255, 29, 162);
+    -fx-fill: -pink;
 }
 
 .mountain-slider-control .text {
     -fx-font-family: 'Lato Light';
     -fx-font-size: 3;
-    -fx-fill: rgb(84, 104, 134);
+    -fx-fill: -blue-dark;
 }
 
 /*Mountain Slider Control Dark Theme*/
 
 .mountain-slider-dark-control {
-    -blue-dark: rgb(84, 104, 134);
-    -white-blue-light: rgb(226, 233, 244);
-    -white-blue: rgb(191, 239, 118);
-    -pink: rgb(255, 29, 162);
     -fx-padding:          5;
     -fx-background-color: -blue-dark;
-    -text-color: -white-blue-light;
-
 }
 
 .mountain-slider-dark-control .background-line {
@@ -73,16 +77,16 @@
 }
 
 .mountain-slider-dark-control .value-line {
-    -fx-stroke: -white-blue;
+    -fx-stroke: -blue-light;
     -fx-stroke-width: 2;
 }
 
 .mountain-slider-dark-control .thumb {
-    -fx-fill: -pink;
+    -fx-fill: -green;
 }
 
 .mountain-slider-dark-control .text {
     -fx-font-family: 'Lato Light';
     -fx-font-size: 3;
-    -fx-fill: -white-blue;
+    -fx-fill: -white-blue-light;
 }

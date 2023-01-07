@@ -43,11 +43,24 @@ public class MountainSliderControl extends Region {
     private Line peakBackgroundLine;
     private Line peakValueLine;
     private Circle peakThumb;
-
     private Text displayPeakHeight;
     private Text displayPeakLabel;
+    
+    private Line schartenBackgroundLine;
+    private Line schartenValueLine;
+    private Circle schartenThumb;
+    private Text displaySchartenHeight;
+    private Text displaySchartenLabel;
+    
+    private Line distanceBackgroundLine;
+    private Line distanceValueLine;
+    private Circle distanceThumb;
+    private Text displayDistanceHeight;
+    private Text displayDistanceLabel;
 
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
+    private final DoubleProperty schartenValue = new SimpleDoubleProperty(895);
+    private final DoubleProperty distanceValue = new SimpleDoubleProperty(7.2);
     private final BooleanProperty on          = new SimpleBooleanProperty(true);
 
 
@@ -77,8 +90,7 @@ public class MountainSliderControl extends Region {
     }
 
     private void initializeParts() {
-        //ToDo: alle deklarierten Parts initialisieren
-
+        // Gipfelhöhe
         peakBackgroundLine = new Line();
         peakBackgroundLine.setStartX(7);
         peakBackgroundLine.setStartY(11);
@@ -101,9 +113,60 @@ public class MountainSliderControl extends Region {
         displayPeakHeight = new Text(94-10, 8,"");
         displayPeakHeight.getStyleClass().add("text");
 
-        displayPeakLabel = new Text(7, 8,"Gipfelhöhe M.ü.M.");
+        displayPeakLabel = new Text(7, 8,"Gipfelhöhe (m ü.M.)");
         displayPeakLabel.getStyleClass().add("text");
 
+        // Schartenhöhe
+        schartenBackgroundLine = new Line();
+        schartenBackgroundLine.setStartX(7);
+        schartenBackgroundLine.setStartY(24);
+        schartenBackgroundLine.setEndX(94);
+        schartenBackgroundLine.setEndY(24);
+        schartenBackgroundLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        schartenBackgroundLine.getStyleClass().add("background-line");
+
+        schartenValueLine = new Line();
+        schartenValueLine.setStartX(7);
+        schartenValueLine.setStartY(24);
+        schartenValueLine.setEndX(35);
+        schartenValueLine.setEndY(24);
+        schartenValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        schartenValueLine.getStyleClass().add("value-line");
+
+        schartenThumb = new Circle(7, 24, 1);
+        schartenThumb.getStyleClass().add("thumb");
+
+        displaySchartenHeight = new Text(94-10, 8+13,"");
+        displaySchartenHeight.getStyleClass().add("text");
+
+        displaySchartenLabel = new Text(7, 8+13,"Schartenhöhe (m)");
+        displaySchartenLabel.getStyleClass().add("text");
+
+        // Distanz
+        distanceBackgroundLine = new Line();
+        distanceBackgroundLine.setStartX(7);
+        distanceBackgroundLine.setStartY(37);
+        distanceBackgroundLine.setEndX(94);
+        distanceBackgroundLine.setEndY(37);
+        distanceBackgroundLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        distanceBackgroundLine.getStyleClass().add("background-line");
+
+        distanceValueLine = new Line();
+        distanceValueLine.setStartX(7);
+        distanceValueLine.setStartY(37);
+        distanceValueLine.setEndX(35);
+        distanceValueLine.setEndY(37);
+        distanceValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        distanceValueLine.getStyleClass().add("value-line");
+
+        distanceThumb = new Circle(7, 37, 1);
+        distanceThumb.getStyleClass().add("thumb");
+
+        displayDistanceHeight = new Text(94-10, 8+13+13,"");
+        displayDistanceHeight.getStyleClass().add("text");
+
+        displayDistanceLabel = new Text(7, 8+13+13,"Distanz (km)");
+        displayDistanceLabel.getStyleClass().add("text");
     }
 
     private void initializeDrawingPane() {
@@ -116,7 +179,10 @@ public class MountainSliderControl extends Region {
 
 
     private void layoutParts() {
-        drawingPane.getChildren().addAll(peakBackgroundLine, peakValueLine,peakThumb,  displayPeakHeight, displayPeakLabel);
+        drawingPane.getChildren().addAll(
+            peakBackgroundLine, peakValueLine,peakThumb, displayPeakHeight, displayPeakLabel,
+            schartenBackgroundLine, schartenValueLine, schartenThumb,  displaySchartenHeight, displaySchartenLabel,
+            distanceBackgroundLine, distanceValueLine, distanceThumb,  displayDistanceHeight, displayDistanceLabel);
 
         getChildren().add(drawingPane);
     }
@@ -125,12 +191,34 @@ public class MountainSliderControl extends Region {
         peakThumb.setOnMouseDragged( event -> {
             // todo set max peak thumb value
             setPeakValue(event.getX()*4800/94);
-        });    }
+        });
+
+        schartenThumb.setOnMouseDragged( event -> {
+            // todo set max peak thumb value
+            setSchartenValue(event.getX()*2200/94);
+        });
+
+        distanceThumb.setOnMouseDragged( event -> {
+            // todo set max peak thumb value
+            setDistanceValue(event.getX()*20/94);
+        });
+
+    }
 
     private void setupValueChangeListeners() {
         peakValueProperty().addListener((observable, oldValue, newValue) ->
         {
             peakValueLine.setEndX((Double) newValue);
+        });
+
+        schartenValueProperty().addListener((observable, oldValue, newValue) ->
+        {
+            schartenValueLine.setEndX((Double) newValue);
+        });
+
+        distanceValueProperty().addListener((observable, oldValue, newValue) ->
+        {
+            distanceValueLine.setEndX((Double) newValue);
         });
 
         onProperty().addListener((observable, oldValue, newValue) -> {
@@ -150,7 +238,16 @@ public class MountainSliderControl extends Region {
         displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.1f"));
         peakValueLine.endXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800) );
         peakThumb.centerXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800));
+
+        displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.1f"));
+        schartenValueLine.endXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200) );
+        schartenThumb.centerXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200));
+
+        displayDistanceHeight.textProperty().bind(distanceValueProperty().asString(CH, "%.1f"));
+        distanceValueLine.endXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(20) );
+        distanceThumb.centerXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(20));
     }
+    
 
 
     @Override
@@ -504,6 +601,110 @@ public class MountainSliderControl extends Region {
 
     public void setDisplayPeakLabel(Text displayPeakLabel) {
         this.displayPeakLabel = displayPeakLabel;
+    }
+
+    public Line getSchartenBackgroundLine() {
+        return schartenBackgroundLine;
+    }
+
+    public void setSchartenBackgroundLine(Line schartenBackgroundLine) {
+        this.schartenBackgroundLine = schartenBackgroundLine;
+    }
+
+    public Line getSchartenValueLine() {
+        return schartenValueLine;
+    }
+
+    public void setSchartenValueLine(Line schartenValueLine) {
+        this.schartenValueLine = schartenValueLine;
+    }
+
+    public Circle getSchartenThumb() {
+        return schartenThumb;
+    }
+
+    public void setSchartenThumb(Circle schartenThumb) {
+        this.schartenThumb = schartenThumb;
+    }
+
+    public Text getDisplaySchartenHeight() {
+        return displaySchartenHeight;
+    }
+
+    public void setDisplaySchartenHeight(Text displaySchartenHeight) {
+        this.displaySchartenHeight = displaySchartenHeight;
+    }
+
+    public Text getDisplaySchartenLabel() {
+        return displaySchartenLabel;
+    }
+
+    public void setDisplaySchartenLabel(Text displaySchartenLabel) {
+        this.displaySchartenLabel = displaySchartenLabel;
+    }
+
+    public double getSchartenValue() {
+        return schartenValue.get();
+    }
+
+    public DoubleProperty schartenValueProperty() {
+        return schartenValue;
+    }
+
+    public void setSchartenValue(double schartenValue) {
+        this.schartenValue.set(schartenValue);
+    }
+
+    public Line getDistanceBackgroundLine() {
+        return distanceBackgroundLine;
+    }
+
+    public void setDistanceBackgroundLine(Line distanceBackgroundLine) {
+        this.distanceBackgroundLine = distanceBackgroundLine;
+    }
+
+    public Line getDistanceValueLine() {
+        return distanceValueLine;
+    }
+
+    public void setDistanceValueLine(Line distanceValueLine) {
+        this.distanceValueLine = distanceValueLine;
+    }
+
+    public Circle getDistanceThumb() {
+        return distanceThumb;
+    }
+
+    public void setDistanceThumb(Circle distanceThumb) {
+        this.distanceThumb = distanceThumb;
+    }
+
+    public Text getDisplayDistanceHeight() {
+        return displayDistanceHeight;
+    }
+
+    public void setDisplayDistanceHeight(Text displayDistanceHeight) {
+        this.displayDistanceHeight = displayDistanceHeight;
+    }
+
+    public Text getDisplayDistanceLabel() {
+        return displayDistanceLabel;
+    }
+
+    public void setDisplayDistanceLabel(Text displayDistanceLabel) {
+        this.displayDistanceLabel = displayDistanceLabel;
+    }
+
+    public double getDistanceValue() {
+        return distanceValue.get();
+    }
+
+    public DoubleProperty distanceValueProperty() {
+        return distanceValue;
+    }
+
+    public void setDistanceValue(double distanceValue) {
+        this.distanceValue.set(distanceValue);
     }
 
     public boolean isOn() {

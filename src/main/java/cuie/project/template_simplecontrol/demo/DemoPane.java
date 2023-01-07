@@ -74,13 +74,13 @@ public class DemoPane extends BorderPane {
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
         darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
-
         cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
         cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
 
-
         mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        mountainSliderControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
         mountainSliderControl.onProperty().bindBidirectional(pm.onProperty());
     }
 
