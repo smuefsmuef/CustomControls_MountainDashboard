@@ -44,7 +44,7 @@ public class DemoPane extends BorderPane {
         peakSlider = new Slider(0, 5000, 4357);
         peakSlider.setShowTickLabels(true);
 
-        schartenSlider = new Slider(0, 2200, 895);
+        schartenSlider = new Slider(200, 2200, 895);
         schartenSlider.setShowTickLabels(true);
 
         distanceSlider = new Slider(5, 20, 7.2);

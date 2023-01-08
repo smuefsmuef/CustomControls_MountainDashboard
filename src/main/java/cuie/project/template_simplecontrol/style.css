@@ -4,10 +4,23 @@
     -white-blue-light: rgb(226, 233, 244);
     -blue-light: rgb(157, 187, 232);
     -green: rgb(0, 214, 111);
+    -green-dark:  rgb(0, 99, 51);
     -pink: rgb(255, 29, 162);
     -blue: rgb(40, 126, 255);
 }
 
+
+@font-face{
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 900;
+    src: url('/fonts/Inter/Inter-Black.ttf') format('truetype');
+}
+
+@font-face{
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 400;
+    src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
+}
 
 .mountain-control {
     -fx-padding: 5;
@@ -32,9 +45,34 @@
 }
 
 .mountain-control .display {
-    -fx-font-family: 'Lato Light';
+    -fx-font-family: 'Inter Black';
     -fx-font-size:   24;
     -fx-fill:        derive(-base-color, 90%);
+}
+
+.mountain-control .display-peak-height {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:        -white;
+}
+
+.mountain-control .display-scharten-height {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:       -pink;
+}
+
+.mountain-control .display-distance {
+    -fx-font-family: 'Inter Black';
+    -fx-font-size:   20;
+    -fx-fill:        -green-dark;
+}
+
+.mountain-control .scale-label {
+    -fx-font-family: 'Inter Regular';
+    -fx-font-size:   15;
+    -fx-text-fill:  -white;
+    -fx-text-alignment: right;
 }
 
 
