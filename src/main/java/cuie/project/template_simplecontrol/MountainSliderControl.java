@@ -35,7 +35,7 @@ public class MountainSliderControl extends Region {
 
     private static final double ASPECT_RATIO = ARTBOARD_WIDTH / ARTBOARD_HEIGHT;
 
-    private static final double MINIMUM_WIDTH = 100;
+    private static final double MINIMUM_WIDTH = 400;
     private static final double MINIMUM_HEIGHT = MINIMUM_WIDTH / ASPECT_RATIO;
 
     private static final double MAXIMUM_WIDTH = 1500; // check with karin to have the same value
@@ -105,10 +105,10 @@ public class MountainSliderControl extends Region {
         peakValueLine.setEndX(64);
         peakValueLine.setEndY(11);
         peakValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
-        peakValueLine.getStyleClass().add("value-line");
+        peakValueLine.getStyleClass().add("peak-value-line");
 
         peakThumb = new Circle(7, 11, 1);
-        peakThumb.getStyleClass().add("thumb");
+        peakThumb.getStyleClass().add("peak-thumb");
 
         displayPeakHeight = new Text(94-10, 8,"");
         displayPeakHeight.getStyleClass().add("text");
@@ -131,10 +131,10 @@ public class MountainSliderControl extends Region {
         schartenValueLine.setEndX(35);
         schartenValueLine.setEndY(24);
         schartenValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
-        schartenValueLine.getStyleClass().add("value-line");
+        schartenValueLine.getStyleClass().add("scharten-value-line");
 
         schartenThumb = new Circle(7, 24, 1);
-        schartenThumb.getStyleClass().add("thumb");
+        schartenThumb.getStyleClass().add("scharten-thumb");
 
         displaySchartenHeight = new Text(94-10, 8+13,"");
         displaySchartenHeight.getStyleClass().add("text");
@@ -157,10 +157,10 @@ public class MountainSliderControl extends Region {
         distanceValueLine.setEndX(35);
         distanceValueLine.setEndY(37);
         distanceValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
-        distanceValueLine.getStyleClass().add("value-line");
+        distanceValueLine.getStyleClass().add("distance-value-line");
 
         distanceThumb = new Circle(7, 37, 1);
-        distanceThumb.getStyleClass().add("thumb");
+        distanceThumb.getStyleClass().add("distance-thumb");
 
         displayDistanceHeight = new Text(94-10, 8+13+13,"");
         displayDistanceHeight.getStyleClass().add("text");

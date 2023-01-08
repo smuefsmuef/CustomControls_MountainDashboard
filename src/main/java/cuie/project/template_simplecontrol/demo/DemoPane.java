@@ -63,24 +63,17 @@ public class DemoPane extends BorderPane {
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
 
-
         VBox dashboard = new VBox( themeControl, mountainSliderControl);
         HBox test = new HBox(dashboard, cc);
 
-        // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
+       // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
        // setTop(dashboard);
        setCenter(test);
-        setRight(controlPane);
-
-        getStyleClass().add("frame");
+       setRight(controlPane);
 
     }
 
     private void setupBindings() {
-        //slider.valueProperty().bindBidirectional(pm.pmValueProperty());
-       // colorPicker.valueProperty().bindBidirectional(pm.baseColorProperty());
-       // cc.baseColorProperty().bindBidirectional(pm.baseColorProperty());
-
         peakSlider.valueProperty().bindBidirectional(pm.peakValueProperty());
         schartenSlider.valueProperty().bindBidirectional(pm.schartenValueProperty());
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
@@ -89,6 +82,7 @@ public class DemoPane extends BorderPane {
         cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
         cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+        cc.onProperty().bindBidirectional(pm.onProperty());
 
         mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
