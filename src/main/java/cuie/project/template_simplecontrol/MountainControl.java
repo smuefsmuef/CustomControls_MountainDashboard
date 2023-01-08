@@ -91,6 +91,7 @@ public class MountainControl extends Region {
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
     private final DoubleProperty schartenValue = new SimpleDoubleProperty(895);
     private final DoubleProperty distanceValue = new SimpleDoubleProperty(7.2);
+    private final BooleanProperty on          = new SimpleBooleanProperty(true);
 
 //    // ToDo: ergänzen mit allen CSS stylable properties
 //    private static final CssMetaData<MountainControl, Color> BASE_COLOR_META_DATA =
@@ -147,7 +148,12 @@ public class MountainControl extends Region {
         loadFonts("/fonts/Lato/Lato-Lig.ttf", "/fonts/Lato/Lato-Reg.ttf");
         addStylesheetFiles("style.css");
 
-        getStyleClass().add("mountain-control");
+        //init
+        if(!isOn()) {
+            getStyleClass().add("mountain-dark-control");
+        } else {
+            getStyleClass().add("mountain-control");
+        }
     }
 
     private void initializeParts() {
@@ -176,7 +182,7 @@ public class MountainControl extends Region {
         underground.getStyleClass().add("neighbour-mountain");
 
         heightScale = new Line(160, 0, 160, 700);
-        heightScale.setStroke(WHITE);
+        heightScale.getStyleClass().add("height-scale");
 
         kilimandscharo = new Label( "Kilimandscharo  \n---\n5895  ");
         kilimandscharo.setLayoutX(43);
@@ -289,6 +295,17 @@ public class MountainControl extends Region {
 
             }
             displayDistance.setOpacity(1.0);
+        });
+
+        onProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(true)) {
+                getStyleClass().remove("mountain-control");
+                getStyleClass().add("mountain-dark-control");
+
+            } else {
+                getStyleClass().remove("mountain-dark-control");
+                getStyleClass().add("mountain-control");
+            }
         });
     }
 
@@ -859,5 +876,17 @@ public class MountainControl extends Region {
 
     public void setDisplayDistance(Text displayDistance) {
         this.displayDistance = displayDistance;
+    }
+
+    public boolean isOn() {
+        return on.get();
+    }
+
+    public BooleanProperty onProperty() {
+        return on;
+    }
+
+    public void setOn(boolean on) {
+        this.on.set(on);
     }
 }
