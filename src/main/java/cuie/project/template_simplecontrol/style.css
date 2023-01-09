@@ -53,7 +53,7 @@
 .mountain-control .display-peak-height {
     -fx-font-family: 'Inter Black';
     -fx-font-size:   20;
-    -fx-fill:        -blue-grey;
+    -fx-fill:        -blue-light;
 }
 
 .mountain-control .display-scharten-height {
@@ -106,7 +106,6 @@
     -fx-text-fill:  -white-blue-light;
     -fx-text-alignment: right;
 }
-
 
 /*Mountain Slider Control Light Theme*/
 

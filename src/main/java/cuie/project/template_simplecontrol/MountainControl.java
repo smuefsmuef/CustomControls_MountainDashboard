@@ -88,6 +88,11 @@ public class MountainControl extends Region {
     private Text displaySchartenHeight;
     private Text displayDistance;
 
+    private Text displaySchartenLabel;
+    private Text displayPeakLabel;
+    private Text displayDistanceLabel;
+
+
     private final DoubleProperty peakValue = new SimpleDoubleProperty(4357);
     private final DoubleProperty schartenValue = new SimpleDoubleProperty(895);
     private final DoubleProperty distanceValue = new SimpleDoubleProperty(7.2);
@@ -211,18 +216,24 @@ public class MountainControl extends Region {
             new Circle(500, peakHeight, 10);
         distanceCircle.getStyleClass().add("distance-circle");
 
-        displayPeakHeight = new Text(170, peakHeight, "Gipfelhöhe: " +(getPeakValue()));
+        displayPeakLabel = new Text(170, peakHeight-20, "Gipfelhöhe");
+        displayPeakLabel.getStyleClass().add("scale-label");
+
+        displayPeakHeight = new Text(170, peakHeight, "" +(getPeakValue()));
         displayPeakHeight.getStyleClass().add("display-peak-height");
 
+        displaySchartenLabel = new Text(350, ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2)-20, "Schartenhöhe");
+        displaySchartenLabel.getStyleClass().add("scale-label");
 
         displaySchartenHeight = new Text(350, ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2),
-            "Schartenhöhe: -" +(getSchartenValue()));
+            ( "" + getSchartenValue()));
         displaySchartenHeight.getStyleClass().add("display-scharten-height");
         displaySchartenHeight.setOpacity(0.0);
 
+        displayDistanceLabel =  new Text(500.0 + distance/2, neighbourPeakHeight+20-20, "Dominanz");
+        displayDistanceLabel.getStyleClass().add("scale-label");
 
-        displayDistance =
-            new Text("Dominanz: ");
+        displayDistance = new Text("");
         displayDistance.setX(500.0 + distance/2);
         displayDistance.setY(neighbourPeakHeight+20);
         displayDistance.getStyleClass().add("display-distance");
@@ -262,7 +273,7 @@ public class MountainControl extends Region {
             mainMountain, neighbourMountain, underground,
             heightScale, kilimandscharo, matterhorn, rigi, zuerich,
             schartenCircle, distanceCircle, schartenPath, distancePath,
-            displaySchartenHeight, displayPeakHeight, displayDistance);
+            displaySchartenHeight, displayPeakHeight, displayDistance, displaySchartenLabel, displayPeakLabel, displayDistanceLabel);
 
         getChildren().add(drawingPane);
     }
@@ -338,10 +349,14 @@ public class MountainControl extends Region {
             underground.setHeight(700-schartenHeight);
 
             displayPeakHeight.setY(peakHeight);
-            displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2));
+            displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2)-20);
 
             displayDistance.setX(500.0 + distance/2);
             displayDistance.setY(neighbourPeakHeight+20);
+
+            displayPeakLabel.setY(peakHeight-20);
+            displaySchartenLabel.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2)-20);
+            displayDistanceLabel.setY(neighbourPeakHeight);
 
             schartenCircle.setCenterX(500);
             schartenCircle.setCenterY(peakHeight);
@@ -386,6 +401,8 @@ public class MountainControl extends Region {
 
             displaySchartenHeight.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2));
 
+            displaySchartenLabel.setY(ARTBOARD_HEIGHT - (getPeakValue() / 10 - (getSchartenValue() / 10)/2)-20);
+
             schartenCircle.setCenterX(500);
             schartenCircle.setCenterY(peakHeight);
 
@@ -413,6 +430,9 @@ public class MountainControl extends Region {
 
             displayDistance.setX(500.0 + distance/2);
             displayDistance.setY(neighbourPeakHeight+20);
+
+            displayDistanceLabel.setX(500.0 + distance/2);
+            displayDistanceLabel.setY(neighbourPeakHeight);
 
             distanceCircle.setCenterX(500);
             distanceCircle.setCenterY(ARTBOARD_HEIGHT - (getPeakValue() / 10));
