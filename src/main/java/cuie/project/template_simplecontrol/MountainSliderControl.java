@@ -113,7 +113,7 @@ public class MountainSliderControl extends Region {
         displayPeakHeight = new Text(94-10, 8,"");
         displayPeakHeight.getStyleClass().add("text");
 
-        displayPeakLabel = new Text(7, 8,"Gipfelhöhe (m ü.M.)");
+        displayPeakLabel = new Text(7, 8,"Gipfelhöhe [m.ü.M.]");
         displayPeakLabel.getStyleClass().add("text");
 
         // Schartenhöhe
@@ -139,7 +139,7 @@ public class MountainSliderControl extends Region {
         displaySchartenHeight = new Text(94-10, 8+13,"");
         displaySchartenHeight.getStyleClass().add("text");
 
-        displaySchartenLabel = new Text(7, 8+13,"Schartenhöhe (m)");
+        displaySchartenLabel = new Text(7, 8+13,"Schartenhöhe [m]");
         displaySchartenLabel.getStyleClass().add("text");
 
         // Distanz
@@ -165,7 +165,7 @@ public class MountainSliderControl extends Region {
         displayDistanceHeight = new Text(94-10, 8+13+13,"");
         displayDistanceHeight.getStyleClass().add("text");
 
-        displayDistanceLabel = new Text(7, 8+13+13,"Distanz (km)");
+        displayDistanceLabel = new Text(7, 8+13+13,"Dominanz [km]");
         displayDistanceLabel.getStyleClass().add("text");
     }
 
@@ -235,11 +235,11 @@ public class MountainSliderControl extends Region {
     }
 
     private void setupBindings() {
-        displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.1f"));
+        displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.0f"));
         peakValueLine.endXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800) );
         peakThumb.centerXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800));
 
-        displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.1f"));
+        displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.0f"));
         schartenValueLine.endXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200) );
         schartenThumb.centerXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200));
 
