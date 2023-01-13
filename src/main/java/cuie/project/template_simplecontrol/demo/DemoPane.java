@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import cuie.project.template_simplecontrol.MountainControl;
@@ -17,7 +18,7 @@ public class DemoPane extends BorderPane {
     private final PresentationModel pm;
 
     // declare the custom control
-    private MountainControl cc;
+    private MountainControl mountainControl;
     private MountainSliderControl mountainSliderControl;
     private ThemeControl themeControl;
 
@@ -35,9 +36,7 @@ public class DemoPane extends BorderPane {
     }
 
     private void initializeControls() {
-        setPadding(new Insets(10));
-
-        cc = new MountainControl();
+        mountainControl = new MountainControl();
         mountainSliderControl = new MountainSliderControl();
         themeControl = new ThemeControl();
 
@@ -60,16 +59,16 @@ public class DemoPane extends BorderPane {
             new Label("Schartenhöhe"), schartenSlider,
             new Label("Kilometer bis zum nächsten grösseren Berg"), distanceSlider, darkThemeOnBox
             );
-        controlPane.setPadding(new Insets(0, 50, 0, 50));
+        controlPane.setPadding(new Insets(20, 50, 0, 50));
         controlPane.setSpacing(10);
 
-        VBox dashboard = new VBox( themeControl, mountainSliderControl);
-        HBox test = new HBox(dashboard, cc);
-
-       // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
-       // setTop(dashboard);
-       setCenter(test);
-       setRight(controlPane);
+        BorderPane dashboard = new BorderPane();
+        dashboard.setBottom(themeControl);
+        dashboard.setCenter(mountainSliderControl);
+      
+        setLeft(dashboard);
+        setCenter(mountainControl);
+    //  setRight(controlPane); // kann auch wieder eingeschaltet werden
 
     }
 
@@ -79,10 +78,10 @@ public class DemoPane extends BorderPane {
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
         darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
-        cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
-        cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
-        cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
-        cc.onProperty().bindBidirectional(pm.onProperty());
+        mountainControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        mountainControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        mountainControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+        mountainControl.onProperty().bindBidirectional(pm.onProperty());
 
         mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());

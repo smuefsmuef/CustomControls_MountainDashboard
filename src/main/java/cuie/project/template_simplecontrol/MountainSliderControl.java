@@ -21,8 +21,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 
 /**
- * ToDo: CustomControl kurz beschreiben
- *
+Dieser Custom Control ist das Steuerungs-Element zum Mountain Control.
+Drei Schieberegler erlauben die Einstellung von Höhe, Distanz  und Schartenhöhe.
+Der Custom Control ist in zwei Farb-Themes verfügbar.
+
  * @author Karin Güdel & Petra Kohler
  */
 
@@ -38,7 +40,11 @@ public class MountainSliderControl extends Region {
     private static final double MINIMUM_WIDTH = 400;
     private static final double MINIMUM_HEIGHT = MINIMUM_WIDTH / ASPECT_RATIO;
 
-    private static final double MAXIMUM_WIDTH = 1500; // check with karin to have the same value
+    private static final double MAXIMUM_WIDTH = 1500;
+
+    private static final double MAX_PEAKHIGHT = 4800;
+    private static final double MAX_DISTANCE = 20;
+    private static final double MAX_SCHARTEN = 2200;
 
     private Line peakBackgroundLine;
     private Line peakValueLine;
@@ -189,18 +195,20 @@ public class MountainSliderControl extends Region {
 
     private void setupEventHandlers() {
         peakThumb.setOnMouseDragged( event -> {
-            // todo set max peak thumb value
-            setPeakValue(event.getX()*4800/94);
+            if(event.getX()*MAX_PEAKHIGHT/101 < 5200 )
+            setPeakValue(event.getX()*MAX_PEAKHIGHT/101);
         });
 
         schartenThumb.setOnMouseDragged( event -> {
-            // todo set max peak thumb value
-            setSchartenValue(event.getX()*2200/94);
+            if (event.getX()*MAX_SCHARTEN/101 < 2376) {
+                setSchartenValue(event.getX() * MAX_SCHARTEN / 101);
+            }
         });
 
         distanceThumb.setOnMouseDragged( event -> {
-            // todo set max peak thumb value
-            setDistanceValue(event.getX()*20/94);
+            if(event.getX()*MAX_DISTANCE/101 < 22){
+                setDistanceValue(event.getX()*MAX_DISTANCE/101);
+            }
         });
 
     }
@@ -208,7 +216,7 @@ public class MountainSliderControl extends Region {
     private void setupValueChangeListeners() {
         peakValueProperty().addListener((observable, oldValue, newValue) ->
         {
-            peakValueLine.setEndX((Double) newValue);
+                peakValueLine.setEndX((Double) newValue);
         });
 
         schartenValueProperty().addListener((observable, oldValue, newValue) ->
@@ -236,16 +244,16 @@ public class MountainSliderControl extends Region {
 
     private void setupBindings() {
         displayPeakHeight.textProperty().bind(peakValueProperty().asString(CH, "%.0f"));
-        peakValueLine.endXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800) );
-        peakThumb.centerXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(4800));
+        peakValueLine.endXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(MAX_PEAKHIGHT) );
+        peakThumb.centerXProperty().bind(peakValueProperty().multiply((getPeakBackgroundLine().getEndX()-getPeakBackgroundLine().getStartX())).divide(MAX_PEAKHIGHT));
 
         displaySchartenHeight.textProperty().bind(schartenValueProperty().asString(CH, "%.0f"));
-        schartenValueLine.endXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200) );
-        schartenThumb.centerXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(2200));
+        schartenValueLine.endXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(MAX_SCHARTEN) );
+        schartenThumb.centerXProperty().bind(schartenValueProperty().multiply((getSchartenBackgroundLine().getEndX()-getSchartenBackgroundLine().getStartX())).divide(MAX_SCHARTEN));
 
         displayDistanceHeight.textProperty().bind(distanceValueProperty().asString(CH, "%.1f"));
-        distanceValueLine.endXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(20) );
-        distanceThumb.centerXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(20));
+        distanceValueLine.endXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(MAX_DISTANCE) );
+        distanceThumb.centerXProperty().bind(distanceValueProperty().multiply((getDistanceBackgroundLine().getEndX()-getDistanceBackgroundLine().getStartX())).divide(MAX_DISTANCE));
     }
     
 
@@ -267,7 +275,6 @@ public class MountainSliderControl extends Region {
         double scalingFactor = width / ARTBOARD_WIDTH;
 
         if (availableWidth > 0 && availableHeight > 0) {
-            //ToDo: ueberpruefen ob die drawingPane immer zentriert werden soll (eventuell ist zum Beispiel linksbuendig angemessener)
             relocateDrawingPaneCentered();
             drawingPane.setScaleX(scalingFactor);
             drawingPane.setScaleY(scalingFactor);
@@ -295,7 +302,6 @@ public class MountainSliderControl extends Region {
 
     // Sammlung nuetzlicher Funktionen
 
-    //ToDo: diese Funktionen anschauen und für die Umsetzung des CustomControls benutzen
 
     private void loadFonts(String... font) {
         for (String f : font) {

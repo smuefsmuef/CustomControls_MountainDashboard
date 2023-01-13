@@ -100,7 +100,7 @@ public class MountainControl extends Region {
     private final DoubleProperty distanceValue = new SimpleDoubleProperty(7.2);
     private final BooleanProperty on          = new SimpleBooleanProperty(true);
 
-//    // ToDo: ergänzen mit allen CSS stylable properties
+//    // ToDo: ergänzen mit allen CSS stylable properties - brauchts das überhaupt?
 //    private static final CssMetaData<MountainControl, Color> BASE_COLOR_META_DATA =
 //        FACTORY.createColorCssMetaData("-base-color", s -> s.baseColor);
 //
