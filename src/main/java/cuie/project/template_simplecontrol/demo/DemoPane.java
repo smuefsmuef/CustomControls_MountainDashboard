@@ -1,24 +1,35 @@
 package cuie.project.template_simplecontrol.demo;
 
+import cuie.project.template_simplecontrol.MountainSliderControl;
+import cuie.project.template_simplecontrol.ThemeControl;
 import javafx.geometry.Insets;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import cuie.project.template_simplecontrol.SimpleControl;
+import cuie.project.template_simplecontrol.MountainControl;
 
 public class DemoPane extends BorderPane {
 
     private final PresentationModel pm;
 
     // declare the custom control
-    private SimpleControl cc;
+    private MountainControl mountainControl;
+    private MountainSliderControl mountainSliderControl;
+    private ThemeControl themeControl;
 
     // all controls
-    private Slider      slider;
-    private ColorPicker colorPicker;
+    private TextField title;
+    private Slider peakSlider;
+    private Slider schartenSlider;
+    private Slider distanceSlider;
+    private CheckBox darkThemeOnBox;
+
 
     public DemoPane(PresentationModel pm) {
         this.pm = pm;
@@ -30,31 +41,66 @@ public class DemoPane extends BorderPane {
     private void initializeControls() {
         setPadding(new Insets(10));
 
-        cc = new SimpleControl();
+        title = new TextField();
+        title.setText("Dent Blanche");
 
-        slider = new Slider();
-        slider.setShowTickLabels(true);
+        mountainControl = new MountainControl();
+        mountainSliderControl = new MountainSliderControl();
+        themeControl = new ThemeControl();
 
-        colorPicker = new ColorPicker();
+        peakSlider = new Slider(0, 5000, 4357);
+        peakSlider.setShowTickLabels(true);
+
+        schartenSlider = new Slider(200, 2200, 895);
+        schartenSlider.setShowTickLabels(true);
+
+        distanceSlider = new Slider(5, 20, 7.2);
+        distanceSlider.setShowTickLabels(true);
+
+        darkThemeOnBox = new CheckBox("Darktheme");
+
     }
 
     private void layoutControls() {
-        VBox controlPane = new VBox(new Label("SimpleControl Properties"),
-                                    slider, colorPicker);
-        controlPane.setPadding(new Insets(0, 50, 0, 50));
+        VBox controlPane = new VBox(
+            new Label("Name des Berges"), title
+//            new Label("Gipfelhöhe"), peakSlider,
+//            new Label("Schartenhöhe"), schartenSlider,
+//            new Label("Dominanz"), distanceSlider, darkThemeOnBox
+        );
+        controlPane.setPadding(new Insets(20, 50, 0, 50));
         controlPane.setSpacing(10);
 
-        setCenter(cc);
-        setRight(controlPane);
+        BorderPane dashboard = new BorderPane();
+        dashboard.setBottom(themeControl);
+        dashboard.setCenter(mountainSliderControl);
+
+        setLeft(dashboard);
+        setCenter(mountainControl);
+        setTop(controlPane); // kann auch wieder eingeschaltet werden
+
     }
 
     private void setupBindings() {
-        slider.valueProperty().bindBidirectional(pm.pmValueProperty());
-        colorPicker.valueProperty().bindBidirectional(pm.baseColorProperty());
+        title.textProperty().bindBidirectional(pm.titleProperty());
 
+        peakSlider.valueProperty().bindBidirectional(pm.peakValueProperty());
+        schartenSlider.valueProperty().bindBidirectional(pm.schartenValueProperty());
+        distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
+        darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
-        cc.valueProperty().bindBidirectional(pm.pmValueProperty());
-        cc.baseColorProperty().bindBidirectional(pm.baseColorProperty());
+        mountainControl.titleValueProperty().bindBidirectional(pm.titleProperty());
+        mountainControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        mountainControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        mountainControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+        mountainControl.onProperty().bindBidirectional(pm.onProperty());
+
+        mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        mountainSliderControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+        mountainSliderControl.onProperty().bindBidirectional(pm.onProperty());
+
+        themeControl.onProperty().bindBidirectional(pm.onProperty());
     }
 
 }

@@ -14,8 +14,10 @@ public class DemoStarter extends Application {
 
         Scene scene = new Scene(rootPanel);
 
-        primaryStage.setTitle("Simple Control Demo");
+        primaryStage.setTitle("Dashboard Swiss Mountains");
         primaryStage.setScene(scene);
+
+
 
         primaryStage.show();
     }
