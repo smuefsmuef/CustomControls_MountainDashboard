@@ -10,6 +10,8 @@ import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -19,21 +21,22 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
+import javax.swing.Icon;
 
 /**
- * ToDo: CustomControl kurz beschreiben
- *
+Der ThemeControl steuert über einen einfachen an/aus-Mechanismus den Dark & Light Mode des gesamten Dashboards. *
+
  * @author Karin Güdel & Petra Kohler
  */
 
 public class ThemeControl extends Region {
 
-    private static final double ARTBOARD_WIDTH = 100;
-    private static final double ARTBOARD_HEIGHT = 100;
+    private static final double ARTBOARD_WIDTH = 50;
+    private static final double ARTBOARD_HEIGHT = 50;
 
     private static final double ASPECT_RATIO = ARTBOARD_WIDTH / ARTBOARD_HEIGHT;
 
-    private static final double MINIMUM_WIDTH = 100;
+    private static final double MINIMUM_WIDTH = 50;
     private static final double MINIMUM_HEIGHT = MINIMUM_WIDTH / ASPECT_RATIO;
 
     private static final double MAXIMUM_WIDTH = 1500; // check with karin to have the same value
@@ -41,6 +44,13 @@ public class ThemeControl extends Region {
     private Circle   circle;
 
     private final BooleanProperty on  = new SimpleBooleanProperty(true);
+
+    private static final int ICON_SIZE  = 22;
+    private static final int IMG_OFFSET = 4;
+
+    private static ImageView lightIcon;
+
+    private static ImageView darkIcon;
 
 
     // fuer Resizing benoetigt
@@ -69,11 +79,29 @@ public class ThemeControl extends Region {
     }
 
     private void initializeParts() {
-        circle = new Circle(50.5, 50.5, 39.5);
+        circle = new Circle(ARTBOARD_WIDTH/2, ARTBOARD_HEIGHT/2, 39.5/2);
         circle.getStyleClass().add("button");
         circle.setStrokeWidth(0);
-        DropShadow bottomShadow = new DropShadow(BlurType.GAUSSIAN, Color.rgb(0, 0, 0, 0.3), 4, 0, 3, 2);
-        DropShadow topShadow = new DropShadow(BlurType.GAUSSIAN, Color.rgb(255, 255, 255, 0.3), 4, 0, -3, -2);
+
+        lightIcon = new ImageView(new Image(ThemeControl.class.getResource("icons/sun.png").toExternalForm(),
+            ICON_SIZE, ICON_SIZE,
+            true, false));
+        lightIcon.getStyleClass().add("test");
+
+        darkIcon = new ImageView(new Image(ThemeControl.class.getResource("icons/moon.png").toExternalForm(),
+            ICON_SIZE, ICON_SIZE,
+            true, false));
+
+        darkIcon.setOpacity(0.0);
+        lightIcon.setOpacity(1);
+
+        lightIcon.setX((ARTBOARD_WIDTH-ICON_SIZE)/2);
+        lightIcon.setY((ARTBOARD_HEIGHT-ICON_SIZE)/2);
+        darkIcon.setX((ARTBOARD_WIDTH-ICON_SIZE)/2);
+        darkIcon.setY((ARTBOARD_HEIGHT-ICON_SIZE)/2);
+
+        DropShadow bottomShadow = new DropShadow(BlurType.GAUSSIAN, Color.rgb(0, 0, 0, 0.3), 4/2, 0, 3/2, 2/2);
+        DropShadow topShadow = new DropShadow(BlurType.GAUSSIAN, Color.rgb(255, 255, 255, 0.3), 4/2, 0, -3/2, -2/2);
 
         Blend blend = new Blend();
         blend.setMode(BlendMode.ADD);
@@ -94,7 +122,9 @@ public class ThemeControl extends Region {
 
 
     private void layoutParts() {
-        drawingPane.getChildren().addAll(circle);
+
+
+        drawingPane.getChildren().addAll(circle, lightIcon, darkIcon);
 
         getChildren().add(drawingPane);
     }
@@ -109,10 +139,15 @@ public class ThemeControl extends Region {
         onProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue.equals(true)) {
+                lightIcon.setOpacity(0.0);
+                darkIcon.setOpacity(1);
+
                 getStyleClass().remove("mountain-slider-control");
                 getStyleClass().add("mountain-slider-dark-control");
 
             } else {
+                lightIcon.setOpacity(1.0);
+                darkIcon.setOpacity(0.0);
                 getStyleClass().remove("mountain-slider-dark-control");
                 getStyleClass().add("mountain-slider-control");
             }
@@ -142,7 +177,6 @@ public class ThemeControl extends Region {
         double scalingFactor = width / ARTBOARD_WIDTH;
 
         if (availableWidth > 0 && availableHeight > 0) {
-            //ToDo: ueberpruefen ob die drawingPane immer zentriert werden soll (eventuell ist zum Beispiel linksbuendig angemessener)
             relocateDrawingPaneCentered();
             drawingPane.setScaleX(scalingFactor);
             drawingPane.setScaleY(scalingFactor);

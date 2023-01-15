@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import cuie.project.template_simplecontrol.MountainControl;
@@ -18,7 +19,7 @@ public class DemoPane extends BorderPane {
     private final PresentationModel pm;
 
     // declare the custom control
-    private MountainControl cc;
+    private MountainControl mountainControl;
     private MountainSliderControl mountainSliderControl;
     private ThemeControl themeControl;
 
@@ -43,7 +44,7 @@ public class DemoPane extends BorderPane {
         title = new TextField();
         title.setText("Dent Blanche");
 
-        cc = new MountainControl();
+        mountainControl = new MountainControl();
         mountainSliderControl = new MountainSliderControl();
         themeControl = new ThemeControl();
 
@@ -62,21 +63,21 @@ public class DemoPane extends BorderPane {
 
     private void layoutControls() {
         VBox controlPane = new VBox(
-            new Label("Name des Berges"), title,
-            new Label("Gipfelhöhe"), peakSlider,
-            new Label("Schartenhöhe"), schartenSlider,
-            new Label("Dominanz"), distanceSlider, darkThemeOnBox
+            new Label("Name des Berges"), title
+//            new Label("Gipfelhöhe"), peakSlider,
+//            new Label("Schartenhöhe"), schartenSlider,
+//            new Label("Dominanz"), distanceSlider, darkThemeOnBox
         );
-        controlPane.setPadding(new Insets(0, 50, 0, 50));
+        controlPane.setPadding(new Insets(20, 50, 0, 50));
         controlPane.setSpacing(10);
 
-        VBox dashboard = new VBox(themeControl, mountainSliderControl);
-        HBox test = new HBox(dashboard, cc);
+        BorderPane dashboard = new BorderPane();
+        dashboard.setBottom(themeControl);
+        dashboard.setCenter(mountainSliderControl);
 
-        // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
-        // setTop(dashboard);
-        setCenter(test);
-        setRight(controlPane);
+        setLeft(dashboard);
+        setCenter(mountainControl);
+        setTop(controlPane); // kann auch wieder eingeschaltet werden
 
     }
 
@@ -88,11 +89,11 @@ public class DemoPane extends BorderPane {
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
         darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
-        cc.titleValueProperty().bindBidirectional(pm.titleProperty());
-        cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
-        cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
-        cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
-        cc.onProperty().bindBidirectional(pm.onProperty());
+        mountainControl.titleValueProperty().bindBidirectional(pm.titleProperty());
+        mountainControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
+        mountainControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
+        mountainControl.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());
+        mountainControl.onProperty().bindBidirectional(pm.onProperty());
 
         mountainSliderControl.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         mountainSliderControl.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());

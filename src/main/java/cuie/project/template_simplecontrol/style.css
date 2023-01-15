@@ -27,6 +27,7 @@
     -fx-padding: 5;
     -fx-background-color: -white;
     -text-color: -blue;
+    -fx-border-color: -white-blue-light;
 }
 
 .mountain-control .title {
@@ -175,8 +176,8 @@
 .mountain-slider-control {
     -fx-font-family: 'Inter Regular';
     -fx-padding: 5;
-    -fx-background-color: -white;
-    -fx-border-color: -white-blue-light;
+     -fx-background-color: -white;
+     -fx-border-color: -white-blue-light;
 }
 
 .mountain-slider-control .background-line {
