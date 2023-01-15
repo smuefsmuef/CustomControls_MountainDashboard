@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,10 +23,12 @@ public class DemoPane extends BorderPane {
     private ThemeControl themeControl;
 
     // all controls
-    private Slider      peakSlider;
-    private Slider      schartenSlider;
-    private Slider      distanceSlider;
-    private CheckBox    darkThemeOnBox;
+    private TextField title;
+    private Slider peakSlider;
+    private Slider schartenSlider;
+    private Slider distanceSlider;
+    private CheckBox darkThemeOnBox;
+
 
     public DemoPane(PresentationModel pm) {
         this.pm = pm;
@@ -36,6 +39,9 @@ public class DemoPane extends BorderPane {
 
     private void initializeControls() {
         setPadding(new Insets(10));
+
+        title = new TextField();
+        title.setText("Dent Blanche");
 
         cc = new MountainControl();
         mountainSliderControl = new MountainSliderControl();
@@ -56,29 +62,33 @@ public class DemoPane extends BorderPane {
 
     private void layoutControls() {
         VBox controlPane = new VBox(
+            new Label("Name des Berges"), title,
             new Label("Gipfelhöhe"), peakSlider,
             new Label("Schartenhöhe"), schartenSlider,
-            new Label("Kilometer bis zum nächsten grösseren Berg"), distanceSlider, darkThemeOnBox
-            );
+            new Label("Dominanz"), distanceSlider, darkThemeOnBox
+        );
         controlPane.setPadding(new Insets(0, 50, 0, 50));
         controlPane.setSpacing(10);
 
-        VBox dashboard = new VBox( themeControl, mountainSliderControl);
+        VBox dashboard = new VBox(themeControl, mountainSliderControl);
         HBox test = new HBox(dashboard, cc);
 
-       // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
-       // setTop(dashboard);
-       setCenter(test);
-       setRight(controlPane);
+        // todo problem resizing several....scheint nur zu funktionieren, wenn border pane in der mitte
+        // setTop(dashboard);
+        setCenter(test);
+        setRight(controlPane);
 
     }
 
     private void setupBindings() {
+        title.textProperty().bindBidirectional(pm.titleProperty());
+
         peakSlider.valueProperty().bindBidirectional(pm.peakValueProperty());
         schartenSlider.valueProperty().bindBidirectional(pm.schartenValueProperty());
         distanceSlider.valueProperty().bindBidirectional(pm.distanceValueProperty());
         darkThemeOnBox.selectedProperty().bindBidirectional(pm.onProperty());
 
+        cc.titleValueProperty().bindBidirectional(pm.titleProperty());
         cc.schartenValueProperty().bindBidirectional(pm.schartenValueProperty());
         cc.peakValueProperty().bindBidirectional(pm.peakValueProperty());
         cc.distanceValueProperty().bindBidirectional(pm.distanceValueProperty());

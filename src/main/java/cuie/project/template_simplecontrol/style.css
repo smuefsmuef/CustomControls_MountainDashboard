@@ -1,10 +1,10 @@
-@font-face{
+@font-face {
     -fx-font-family: 'Inter';
     -fx-font-weight: 900;
     src: url('/fonts/Inter/Inter-Black.ttf') format('truetype');
 }
 
-@font-face{
+@font-face {
     -fx-font-family: 'Inter';
     -fx-font-weight: 400;
     src: url('/fonts/Inter/Inter-Regular.ttf') format('truetype');
@@ -13,7 +13,7 @@
 * {
     -blue-dark: rgb(43, 53, 67);
     -blue-grey: rgb(84, 104, 134);
-    -white:rgb(247, 250, 251);
+    -white: rgb(247, 250, 251);
     -white-blue-light: rgb(226, 233, 244);
     -blue-light: rgb(157, 187, 232);
     -green: rgb(0, 214, 111);
@@ -32,7 +32,7 @@
 .mountain-control .title {
     -fx-text-fill: -blue-grey;
     -fx-font-family: 'Inter Black';
-    -fx-font-size: 80;
+    -fx-font-size: 70;
 }
 
 .mountain-control .main-mountain {
@@ -45,8 +45,8 @@
 
 .mountain-control .display {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   24;
-    -fx-fill:        derive(-base-color, 90%);
+    -fx-font-size: 24;
+    -fx-fill: derive(-base-color, 90%);
 }
 
 .mountain-control .display-peak-height {
@@ -57,44 +57,44 @@
 
 .mountain-control .label-peak-height {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   16;
-    -fx-fill:        -blue-grey;
+    -fx-font-size: 16;
+    -fx-fill: -blue-grey;
 }
 
 .mountain-control .peak-height-line {
-    -fx-stroke:        -blue-grey;
+    -fx-stroke: -blue-grey;
     -fx-stroke-width: 2;
     -fx-stroke-dash-array: 2 6;
 }
 
 .mountain-control .display-scharten-height {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   20;
-    -fx-fill:       -pink;
+    -fx-font-size: 20;
+    -fx-fill: -pink;
 }
 
 .mountain-control .scharten-height-label {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   16;
-    -fx-fill:       -pink;
+    -fx-font-size: 16;
+    -fx-fill: -pink;
 }
 
 .mountain-control .display-distance {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   20;
-    -fx-fill:        -green;
+    -fx-font-size: 20;
+    -fx-fill: -green;
 }
 
 .mountain-control .distance-label {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   16;
-    -fx-fill:        -green;
+    -fx-font-size: 16;
+    -fx-fill: -green;
 }
 
 .mountain-control .scale-label {
     -fx-font-family: 'Inter Regular';
-    -fx-font-size:   15;
-    -fx-text-fill:  -blue-grey;
+    -fx-font-size: 15;
+    -fx-text-fill: -blue-grey;
     -fx-text-alignment: right;
 }
 
@@ -127,7 +127,7 @@
 
 .mountain-dark-control {
     -fx-padding: 5;
-    -fx-background-color: -blue-dark ;
+    -fx-background-color: -blue-dark;
 }
 
 .mountain-dark-control .title {
@@ -146,18 +146,18 @@
 
 .mountain-dark-control .display-peak-height {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   20;
-    -fx-fill:        -blue-light;
+    -fx-font-size: 20;
+    -fx-fill: -blue-light;
 }
 
 .mountain-dark-control .label-peak-height {
     -fx-font-family: 'Inter Black';
-    -fx-font-size:   16;
-    -fx-fill:        -blue-light;
+    -fx-font-size: 16;
+    -fx-fill: -blue-light;
 }
 
 .mountain-dark-control .peak-height-line {
-    -fx-stroke:        -blue-light;
+    -fx-stroke: -blue-light;
     -fx-stroke-width: 2;
     -fx-stroke-dash-array: 2 6;
 }
@@ -165,16 +165,16 @@
 
 .mountain-dark-control .scale-label {
     -fx-font-family: 'Inter Regular';
-    -fx-font-size:   15;
-    -fx-text-fill:  -white-blue-light;
+    -fx-font-size: 15;
+    -fx-text-fill: -white-blue-light;
     -fx-text-alignment: right;
 }
 
 /*Mountain Slider Control Light Theme*/
 
- .mountain-slider-control {
-     -fx-font-family: 'Inter Regular';
-     -fx-padding:          5;
+.mountain-slider-control {
+    -fx-font-family: 'Inter Regular';
+    -fx-padding: 5;
     -fx-background-color: -white;
     -fx-border-color: -white-blue-light;
 }
@@ -221,12 +221,12 @@
 /*Mountain Slider Control Dark Theme*/
 
 .mountain-slider-dark-control {
-    -fx-padding:          5;
+    -fx-padding: 5;
     -fx-background-color: -blue-dark;
 }
 
 .mountain-slider-dark-control .background-line {
-    -fx-stroke:  -white-blue-light;
+    -fx-stroke: -white-blue-light;
     -fx-stroke-width: 2;
 }
 
@@ -238,7 +238,7 @@
 
 /*Button Switch Control Light Theme*/
 .mountain-slider-control .button {
-    -fx-fill:  -white;
+    -fx-fill: -white;
 }
 
 /*Button Switch Control Dark Theme*/

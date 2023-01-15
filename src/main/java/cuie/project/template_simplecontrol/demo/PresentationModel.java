@@ -6,10 +6,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 
 public class PresentationModel {
 
+    private final StringProperty title = new SimpleStringProperty("Dent Blanche");
     private final DoubleProperty        peakValue =   new SimpleDoubleProperty(4357);
     private final DoubleProperty        schartenValue   =   new SimpleDoubleProperty(895);
     private final DoubleProperty        distanceValue   =   new SimpleDoubleProperty(7.2);
@@ -87,5 +90,17 @@ public class PresentationModel {
 
     public void setOn(boolean on) {
         this.on.set(on);
+    }
+
+    public String getTitle() {
+        return title.get();
+    }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 }
