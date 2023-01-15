@@ -257,7 +257,6 @@ public class MountainSliderControl extends Region {
     }
     
 
-
     @Override
     protected void layoutChildren() {
         super.layoutChildren();
@@ -301,7 +300,6 @@ public class MountainSliderControl extends Region {
     }
 
     // Sammlung nuetzlicher Funktionen
-
 
     private void loadFonts(String... font) {
         for (String f : font) {
@@ -545,9 +543,6 @@ public class MountainSliderControl extends Region {
     }
 
     // GETTER & SETTER
-
-    // ToDo: ersetzen durch die Getter und Setter Ihres CustomControls
-
 
     public double getPeakValue() {
         return peakValue.get();
