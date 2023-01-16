@@ -1,11 +1,8 @@
-package cuie.project.template_simplecontrol;
+package cuie.project.mountain_dashboard;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.VPos;
-import javafx.scene.Group;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BlurType;
@@ -16,12 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
-import javax.swing.Icon;
 
 /**
 Der ThemeControl steuert über einen einfachen an/aus-Mechanismus den Dark & Light Mode des gesamten Dashboards. *

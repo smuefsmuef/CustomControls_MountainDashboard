@@ -1,18 +1,16 @@
-package cuie.project.template_simplecontrol.demo;
+package cuie.project.mountain_dashboard.demo;
 
-import cuie.project.template_simplecontrol.MountainSliderControl;
-import cuie.project.template_simplecontrol.ThemeControl;
+import cuie.project.mountain_dashboard.MountainSliderControl;
+import cuie.project.mountain_dashboard.ThemeControl;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import cuie.project.template_simplecontrol.MountainControl;
+import cuie.project.mountain_dashboard.MountainControl;
 
 public class DemoPane extends BorderPane {
 
