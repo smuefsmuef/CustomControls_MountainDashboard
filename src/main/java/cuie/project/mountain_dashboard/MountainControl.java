@@ -1,4 +1,4 @@
-package cuie.project.template_simplecontrol;
+package cuie.project.mountain_dashboard;
 
 import java.util.Locale;
 
@@ -24,8 +24,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import static java.lang.Math.log;
 
 /**
  * Mit dem Mountain Control können Name des Berges, Dominanz, Gipfel- und Schartenhöhe eines

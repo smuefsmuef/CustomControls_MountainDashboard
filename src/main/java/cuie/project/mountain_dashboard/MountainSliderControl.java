@@ -1,4 +1,4 @@
-package cuie.project.template_simplecontrol;
+package cuie.project.mountain_dashboard;
 
 import java.util.Locale;
 import javafx.beans.property.BooleanProperty;

@@ -1,4 +1,4 @@
-package cuie.project.template_simplecontrol.demo;
+package cuie.project.mountain_dashboard.demo;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
