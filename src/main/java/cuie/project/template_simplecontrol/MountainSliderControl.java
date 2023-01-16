@@ -46,6 +46,10 @@ public class MountainSliderControl extends Region {
     private static final double MAX_DISTANCE = 20;
     private static final double MAX_SCHARTEN = 2200;
 
+    private static final double START_SLIDER = 7 * ASPECT_RATIO;
+    private static final double END_SLIDER = 94 * ASPECT_RATIO;
+
+
     private Line peakBackgroundLine;
     private Line peakValueLine;
     private Circle peakThumb;
@@ -100,78 +104,78 @@ public class MountainSliderControl extends Region {
         peakBackgroundLine = new Line();
         peakBackgroundLine.setStartX(7);
         peakBackgroundLine.setStartY(11);
-        peakBackgroundLine.setEndX(94);
+        peakBackgroundLine.setEndX(END_SLIDER);
         peakBackgroundLine.setEndY(11);
         peakBackgroundLine.setStrokeLineCap(StrokeLineCap.ROUND);
         peakBackgroundLine.getStyleClass().add("background-line");
 
         peakValueLine = new Line();
-        peakValueLine.setStartX(7);
+        peakValueLine.setStartX(START_SLIDER);
         peakValueLine.setStartY(11);
         peakValueLine.setEndX(64);
         peakValueLine.setEndY(11);
         peakValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
         peakValueLine.getStyleClass().add("peak-value-line");
 
-        peakThumb = new Circle(7, 11, 1);
+        peakThumb = new Circle(64, 11, 1);
         peakThumb.getStyleClass().add("peak-thumb");
 
-        displayPeakHeight = new Text(94-10, 8,"");
+        displayPeakHeight = new Text(END_SLIDER-10, 8,"");
         displayPeakHeight.getStyleClass().add("text");
 
-        displayPeakLabel = new Text(7, 8,"Gipfelhöhe [m.ü.M.]");
+        displayPeakLabel = new Text(START_SLIDER, 8,"Gipfelhöhe [m.ü.M.]");
         displayPeakLabel.getStyleClass().add("text");
 
         // Schartenhöhe
         schartenBackgroundLine = new Line();
-        schartenBackgroundLine.setStartX(7);
+        schartenBackgroundLine.setStartX(START_SLIDER);
         schartenBackgroundLine.setStartY(24);
-        schartenBackgroundLine.setEndX(94);
+        schartenBackgroundLine.setEndX(END_SLIDER);
         schartenBackgroundLine.setEndY(24);
         schartenBackgroundLine.setStrokeLineCap(StrokeLineCap.ROUND);
         schartenBackgroundLine.getStyleClass().add("background-line");
 
         schartenValueLine = new Line();
-        schartenValueLine.setStartX(7);
+        schartenValueLine.setStartX(START_SLIDER);
         schartenValueLine.setStartY(24);
         schartenValueLine.setEndX(35);
         schartenValueLine.setEndY(24);
         schartenValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
         schartenValueLine.getStyleClass().add("scharten-value-line");
 
-        schartenThumb = new Circle(7, 24, 1);
+        schartenThumb = new Circle(START_SLIDER, 24, 1);
         schartenThumb.getStyleClass().add("scharten-thumb");
 
-        displaySchartenHeight = new Text(94-10, 8+13,"");
+        displaySchartenHeight = new Text(END_SLIDER-10, 8+13,"");
         displaySchartenHeight.getStyleClass().add("text");
 
-        displaySchartenLabel = new Text(7, 8+13,"Schartenhöhe [m]");
+        displaySchartenLabel = new Text(START_SLIDER, 8+13,"Schartenhöhe [m]");
         displaySchartenLabel.getStyleClass().add("text");
 
         // Distanz
         distanceBackgroundLine = new Line();
-        distanceBackgroundLine.setStartX(7);
+        distanceBackgroundLine.setStartX(START_SLIDER);
         distanceBackgroundLine.setStartY(37);
-        distanceBackgroundLine.setEndX(94);
+        distanceBackgroundLine.setEndX(END_SLIDER);
         distanceBackgroundLine.setEndY(37);
         distanceBackgroundLine.setStrokeLineCap(StrokeLineCap.ROUND);
         distanceBackgroundLine.getStyleClass().add("background-line");
 
         distanceValueLine = new Line();
-        distanceValueLine.setStartX(7);
+        distanceValueLine.setStartX(START_SLIDER);
         distanceValueLine.setStartY(37);
         distanceValueLine.setEndX(35);
         distanceValueLine.setEndY(37);
         distanceValueLine.setStrokeLineCap(StrokeLineCap.ROUND);
         distanceValueLine.getStyleClass().add("distance-value-line");
 
-        distanceThumb = new Circle(7, 37, 1);
+        distanceThumb = new Circle(START_SLIDER, 37, 1);
         distanceThumb.getStyleClass().add("distance-thumb");
 
-        displayDistanceHeight = new Text(94-10, 8+13+13,"");
+        displayDistanceHeight = new Text(END_SLIDER-10, 8+13+13,"");
         displayDistanceHeight.getStyleClass().add("text");
 
-        displayDistanceLabel = new Text(7, 8+13+13,"Dominanz [km]");
+        displayDistanceLabel = new Text(START_SLIDER, 8+13+13,"Dominanz [km]");
         displayDistanceLabel.getStyleClass().add("text");
     }
 
@@ -195,19 +199,19 @@ public class MountainSliderControl extends Region {
 
     private void setupEventHandlers() {
         peakThumb.setOnMouseDragged( event -> {
-            if(event.getX()*MAX_PEAKHIGHT/101 < 5200 )
-            setPeakValue(event.getX()*MAX_PEAKHIGHT/101);
+            if(event.getX()*MAX_PEAKHIGHT/END_SLIDER < 5200 && event.getX() > START_SLIDER )
+            setPeakValue(event.getX()*MAX_PEAKHIGHT/END_SLIDER);
         });
 
         schartenThumb.setOnMouseDragged( event -> {
-            if (event.getX()*MAX_SCHARTEN/101 < 2376) {
-                setSchartenValue(event.getX() * MAX_SCHARTEN / 101);
+            if (event.getX()*MAX_SCHARTEN/END_SLIDER < 2376 && event.getX() > START_SLIDER) {
+                setSchartenValue(event.getX() * MAX_SCHARTEN / END_SLIDER);
             }
         });
 
         distanceThumb.setOnMouseDragged( event -> {
-            if(event.getX()*MAX_DISTANCE/101 < 22){
-                setDistanceValue(event.getX()*MAX_DISTANCE/101);
+            if(event.getX()*MAX_DISTANCE/END_SLIDER < 22 && event.getX() > START_SLIDER){
+                setDistanceValue(event.getX()*MAX_DISTANCE/END_SLIDER);
             }
         });
 
